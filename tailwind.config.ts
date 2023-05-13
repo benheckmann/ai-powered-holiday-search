@@ -11,15 +11,15 @@ export default {
     themes: [
       {
         check24: {
-          "primary": "#16366F",
-          "secondary": "#F5BE47",
-          "accent": "#1B3F80",
-          "neutral": "#575757",
+          primary: "#16366F",
+          secondary: "#F5BE47",
+          accent: "#1B3F80",
+          neutral: "#575757",
           "base-100": "#FFFFFF",
-          "info": "#EEF7FC",
-          "success": "#DDECDB",
-          "warning": "#FFE6C8",
-          "error": "#F8CBCB",
+          info: "#EEF7FC",
+          success: "#DDECDB",
+          warning: "#FFE6C8",
+          error: "#F8CBCB",
         },
       },
     ],

@@ -1,17 +1,70 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model OfferDeprecated {
+  offerid                  Int      @id @default(autoincrement())
+  hotelid                  Int
+  departuredate            DateTime
+  returndate               DateTime
+  countadults              Int
+  countchildren            Int
+  price                    Decimal
+  inbounddepartureairport  String
+  inboundarrivalairport    String
+  inboundairline           String
+  inboundarrivaldatetime   DateTime
+  outbounddepartureairport String
+  outboundarrivalairport   String
+  outboundairline          String
+  outboundarrivaldatetime  DateTime
+  mealtype                 String
+  oceanview                String
+  roomtype                 String
+
+  @@map("offers")
+}
+
+model HotelDeprecated {
+  hotelid    Int     @id
+  hotelname  String
+  latitude   Decimal
+  longitude  Decimal
+  hotelstars Decimal
+
+  @@map("hotels")
+}
+
+model Offer {
+  offerid                   Int      @id @default(autoincrement())
+  hotelid                   Int
+  outbounddeparturedatetime DateTime
+  inbounddeparturedatetime  DateTime
+  countadults               Int
+  countchildren             Int
+  price                     Decimal
+  inbounddepartureairport   String
+  outboundarrivalairport    String
+  inboundarrivaldatetime    DateTime
+  outbounddepartureairport  String
+  inboundarrivalairport     String
+  outboundarrivaldatetime   DateTime
+  mealtype                  String
+  oceanview                 String
+  roomtype                  String
+
+  @@map("newoffers")
+}
+
+model Hotel {
+  hotelid    Int     @id
+  hotelname  String
+  hotelstars Decimal
+
+  @@map("newhotels")
 }

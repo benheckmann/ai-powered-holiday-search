@@ -5,7 +5,7 @@ import { NLPSearchForm } from "./components/nlp-search-form";
 export const SearchPage: NextPage<GlobalProps> = (props) => {
   // todo: add offer carousel
   return (
-    <div>
+    <div className="flex h-screen items-center justify-center">
       <NLPSearchForm {...props} />
     </div>
   );

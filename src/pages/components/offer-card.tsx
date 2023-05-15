@@ -1,7 +1,7 @@
 import { OfferCardProps } from "../interfaces/offer-card-props";
 
 export const OfferCard: React.FC<OfferCardProps> = (props) => (
-  <div className="w-full max-w-xs bg-base-100 shadow-xl md:max-w-sm lg:max-w-md xl:max-w-lg 2xl:max-w-xl">
+  <div className="card w-full bg-base-100 shadow-xl">
     <figure>
       <img src="/mock-data/mock-hotel-image.png" alt="Offer" />
     </figure>

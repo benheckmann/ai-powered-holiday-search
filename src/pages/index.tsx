@@ -8,11 +8,10 @@ import { ResultsPage } from "./results-page";
 import { SearchPage } from "./search-page";
 import { GlobalProps } from "./interfaces/global-props";
 import { mockOffers } from "../../public/mock-data/mock-offers";
+import { Message } from "./interfaces/message";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
-  const [currentPage, setCurrentPage] = useState(Pages.RESULTS);
+  const [currentPage, setCurrentPage] = useState(Pages.SEARCH);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState({
     departureAirport: "",
@@ -23,6 +22,7 @@ const Home: NextPage = () => {
     countChildren: "",
   });
   const [cachedOffers, setCachedOffers] = useState(mockOffers);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const renderPage = () => {
     const props: GlobalProps = {
@@ -34,6 +34,8 @@ const Home: NextPage = () => {
       setQuery: setQuery,
       cachedOffers,
       setCachedOffers,
+      messages,
+      setMessages,
     };
     switch (currentPage) {
       case Pages.SEARCH:

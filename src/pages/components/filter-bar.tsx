@@ -28,6 +28,7 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
   }, [departureAirport, destinationAirport, dateRange, countAdults, countChildren]);
 
   return (
+    // TODO add a back button
     <div className="fixed top-0 w-full bg-primary">
       <div className="container mx-auto">
         <div className="flex justify-evenly p-5">

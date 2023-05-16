@@ -12,12 +12,14 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export const llmRouter = createTRPCRouter({
-  searchBarInputToQuery: publicProcedure
+  initialLLMQuery: publicProcedure
     .input(z.object({ text: z.string().nullish() }))
-    .mutation(async ({ input }) => {
-      if (!input.text) {
-        console.log("Empty input, returning empty response");
-        return { role: "", content: "" };
+    .query(async ({ input }) => {
+      if (!input.text || !input.text.startsWith("QUERY: ")) {
+        // hack to get around a tRPC bug which calls the endpoint on every keystroke
+        // instead, manually adding 'QUERY: ' when submitting the form
+        console.log("ignoring incomple request: ", input.text);
+        return { role: "assistant", content: "" };
       }
       console.log("Calling OpenAI API with input:", input.text);
       const response = await openai.createChatCompletion({
@@ -27,7 +29,7 @@ export const llmRouter = createTRPCRouter({
           { role: "user", content: input.text },
         ],
       });
-      const message = response.data.choices[0]!.message!;
-      return message;
+      console.log("OpenAI API response:", response);
+      return response.data.choices[0]!.message!;
     }),
 });

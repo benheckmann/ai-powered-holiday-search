@@ -4,6 +4,11 @@ export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {},
+    colors: {
+      // used for flowbite / plain Tailwind CSS components
+      primary: "#16366F",
+      secondary: "#F5BE47",
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {

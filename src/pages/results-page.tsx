@@ -8,9 +8,9 @@ import { ChatWidget } from "./components/chat-widget";
 export const ResultsPage: NextPage<GlobalProps> = (props) => {
   return (
     <div>
-      <FilterBar {...props} />
       <OfferGrid {...props} />
-      <ChatWidget {...props} />
+      <FilterBar {...props} />
+      <ChatWidget {...props} key={props.messages.length} />
     </div>
   );
 };

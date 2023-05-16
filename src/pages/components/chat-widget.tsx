@@ -1,31 +1,52 @@
+import { useState, useEffect } from "react";
+
+import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
+
+import { api } from "~/utils/api";
 import { GlobalProps } from "../interfaces/global-props";
-import { useState, useEffect, useRef } from "react";
+import { Pages } from "../interfaces/page-name-enum";
 
 export const ChatWidget: React.FC<GlobalProps> = (props) => {
   const [collapsed, setCollapsed] = useState(false);
   const [inputMessage, setInputMessage] = useState("");
 
+  const chatCompletion = api.llm.llmChat.useQuery(props.messages);
+
+  useEffect(() => {
+    const newUserMessage = props.messages.length > 0 && props.messages[props.messages.length - 1]!.role === Role.User
+    const fetchData = async () => {
+      if (newUserMessage) {
+        props.setIsLoading(true);
+        const response = await chatCompletion.refetch();
+        props.setMessages([...props.messages, response.data!]);
+        props.setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [props.messages]);
+
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
   };
 
-  const handleMessageSubmit = () => {
+  const handleSubmit = () => {
     if (inputMessage.trim() !== "") {
       props.setMessages([...props.messages, { role: "user", content: inputMessage }]);
       setInputMessage("");
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleMessageSubmit();
+  const handleEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSubmit();
     }
   };
+
 
   return (
     <div className="fixed bottom-4 right-4">
       {!collapsed && (
-        <div className="rounded-lg bg-white p-4 shadow-md">
+        <div className="bg-white rounded-lg p-4 shadow-md">
           <div className="mb-2 h-64 overflow-auto">
             {props.messages.map((message, index) => (
               <div
@@ -44,9 +65,9 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
               className="input w-full max-w-xs"
               value={inputMessage}
               onChange={handleMessageChange}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleEnterKeyDown}
             />
-            <button className="btn ml-2" onClick={handleMessageSubmit}>
+            <button className="btn ml-2" onClick={handleSubmit}>
               Send
             </button>
           </div>

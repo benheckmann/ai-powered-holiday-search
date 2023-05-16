@@ -6,8 +6,8 @@ export default {
     extend: {},
     colors: {
       // used for flowbite / plain Tailwind CSS components
-      primary: "#16366F",
-      secondary: "#F5BE47",
+      // primary: "#16366F",
+      // secondary: "#F5BE47",
     },
   },
   plugins: [require("daisyui")],

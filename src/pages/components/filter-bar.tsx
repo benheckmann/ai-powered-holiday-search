@@ -33,7 +33,7 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
       <div className="container mx-auto">
         <div className="flex justify-evenly p-5">
           <div>
-            <label className="block text-white">Departure Airport</label>
+            <label className="text-white block">Departure Airport</label>
             <input
               type="text"
               value={props.query.departureAirport}
@@ -43,7 +43,7 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
             />
           </div>
           <div>
-            <label className="block text-white">Destination Airport</label>
+            <label className="text-white block">Destination Airport</label>
             <input
               type="text"
               value={destinationAirport}
@@ -53,7 +53,7 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
             />
           </div>
           <div>
-            <label className="block text-white">Dates</label>
+            <label className="text-white block">Dates</label>
             <DatePicker
               selectsRange={true}
               startDate={dateRange[0]}
@@ -65,7 +65,7 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
             />
           </div>
           <div>
-            <label className="block text-white">Adults</label>
+            <label className="text-white block">Adults</label>
             <input
               type="number"
               value={countAdults}
@@ -75,7 +75,7 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
             />
           </div>
           <div>
-            <label className="block text-white">Children</label>
+            <label className="text-white block">Children</label>
             <input
               type="number"
               value={countChildren}

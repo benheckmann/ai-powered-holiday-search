@@ -1,13 +1,15 @@
 import { ChangeEventHandler, useEffect, useState } from "react";
+
+import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
+
 import { Pages } from "../interfaces/page-name-enum";
 import { GlobalProps } from "../interfaces/global-props";
-
 import { api } from "~/utils/api";
 
 export const NLPSearchForm: React.FC<GlobalProps> = (props) => {
   const [userInput, setUserInput] = useState("");
 
-  const initialCompletion = api.llm.initialLLMQuery.useQuery({ text: userInput });
+  const chatCompletion = api.llm.llmChat.useQuery(props.messages);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setUserInput(e.target.value);
@@ -21,26 +23,22 @@ export const NLPSearchForm: React.FC<GlobalProps> = (props) => {
 
   const handleSubmit = () => {
     props.setMessages([{ role: "user", content: userInput }]);
-    setUserInput("QUERY: " + userInput); // workaround for tRPC querying on every keystroke
   };
 
   useEffect(() => {
-    if (userInput.startsWith("QUERY: ")) {
-      props.setIsLoading(true);
-      props.setCurrentPage(Pages.RESULTS);
-      console.log("Calling llm endpoint with ", userInput);
-      initialCompletion
-        .refetch()
-        .then((response) => {
-          props.setMessages([...props.messages, response.data!]);
-          props.setIsLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          props.setIsLoading(false);
-        });
-    }
-  }, [userInput]);
+    const fetchData = async () => {
+      const newUserMessage = props.messages.length > 0 && props.messages[props.messages.length - 1]!.role === Role.User
+      if (props.messages.length > 0 && props.messages[props.messages.length - 1]!.role === Role.User) {
+        props.setIsLoading(true);
+        props.setCurrentPage(Pages.RESULTS);
+        console.log("Calling llm endpoint with ", userInput);
+        const response = await chatCompletion.refetch();
+        props.setMessages([...props.messages, response.data!]);
+        props.setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [props.messages]);
 
   return (
     <div className="rounded-lg bg-secondary p-4">

@@ -1,5 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import { v4 } from "uuid";
 
 import { api } from "~/utils/api";
 import { Pages } from "./interfaces/page-name-enum";
@@ -23,6 +24,13 @@ const Home: NextPage = () => {
   });
   const [cachedOffers, setCachedOffers] = useState(mockOffers);
   const [messages, setMessages] = useState<Message[]>([]);
+
+  // Check for existing sessionId, if not found, create a new one.
+  let sessionId = localStorage.getItem("sessionId");
+  if (!sessionId) {
+    sessionId = v4();
+    localStorage.setItem("sessionId", sessionId);
+  }
 
   const renderPage = () => {
     const props: GlobalProps = {

@@ -6,6 +6,8 @@ import { Message } from "~/pages/interfaces/message";
 import { SYSTEM_MESSAGE_ENGLISH } from "../llm/prompts";
 import { ChatHistory, ChatMessage } from "../zod-types/chat-history";
 
+const sessions: Record<string, Message[]> = {};
+
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -20,24 +22,39 @@ const messagesToOpenAIFormat = (messages: Message[]) => {
 };
 
 export const llmRouter = createTRPCRouter({
-  llmChat: publicProcedure
-    .input(ChatHistory)
-    .output(ChatMessage)
+  getChatHistory: publicProcedure
+    .input(z.string())
+    .output(ChatHistory)
     .query(async ({ input }) => {
-      if (input.length === 0) {
-        console.log("Empty chat history, returning empty response");
-        return { role: "", content: "" };
-      }
-      console.log("Calling OpenAI API with chat history: ", input);
+      console.log("getChatHistory", input);
+      return sessions[input] ?? [];
+    }),
+  addUserMessage: publicProcedure
+    .input(
+      z.object({
+        sessionId: z.string(),
+        messageContent: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      console.log("addUserMessage", input);
+      const { sessionId, messageContent } = input;
+      sessions[sessionId] = [
+        ...(sessions[sessionId] ?? []),
+        { role: Role.User, content: messageContent },
+      ];
       const response = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: [
           { role: Role.System, content: SYSTEM_MESSAGE_ENGLISH },
-          ...messagesToOpenAIFormat(input),
+          ...messagesToOpenAIFormat(sessions[sessionId]!),
         ],
       });
       const chatCompletion = response.data.choices[0]!.message!;
-      console.log("OpenAI API completion: ", chatCompletion);
-      return chatCompletion;
+      sessions[sessionId]!.push({ role: Role.System, content: chatCompletion.content });
     }),
+  clearChatHistory: publicProcedure.input(z.string()).mutation(async ({ input }) => {
+    console.log("clearChatHistory", input);
+    sessions[input] = [];
+  }),
 });

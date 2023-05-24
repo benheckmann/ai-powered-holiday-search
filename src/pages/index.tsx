@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 
 import { api } from "~/utils/api";
 import { Pages } from "./interfaces/page-name-enum";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ResultsPage } from "./results-page";
 import { SearchPage } from "./search-page";
 import { GlobalProps } from "./interfaces/global-props";
@@ -23,14 +23,14 @@ const Home: NextPage = () => {
     countChildren: "",
   });
   const [cachedOffers, setCachedOffers] = useState(mockOffers);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [sessionId, setSessionId] = useState<string>("UNINITIALIZED_SESSION_ID");
 
-  // Check for existing sessionId, if not found, create a new one.
-  let sessionId = localStorage.getItem("sessionId");
-  if (!sessionId) {
-    sessionId = v4();
-    localStorage.setItem("sessionId", sessionId);
-  }
+  useEffect(() => {
+    if (!localStorage.getItem("sessionId")) {
+      localStorage.setItem("sessionId", v4());
+    }
+    setSessionId(localStorage.getItem("sessionId")!);
+  }, []);
 
   const renderPage = () => {
     const props: GlobalProps = {
@@ -42,8 +42,7 @@ const Home: NextPage = () => {
       setQuery: setQuery,
       cachedOffers,
       setCachedOffers,
-      messages,
-      setMessages,
+      sessionId
     };
     switch (currentPage) {
       case Pages.SEARCH:

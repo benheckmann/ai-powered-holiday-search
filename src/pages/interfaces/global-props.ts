@@ -13,6 +13,5 @@ export interface GlobalProps {
   setQuery: Dispatch<SetStateAction<QueryFilters>>;
   cachedOffers: Offer[];
   setCachedOffers: Dispatch<SetStateAction<Offer[]>>;
-  messages: Message[];
-  setMessages: Dispatch<SetStateAction<Message[]>>;
+  sessionId: string
 }

@@ -10,7 +10,7 @@ export const ResultsPage: NextPage<GlobalProps> = (props) => {
     <div>
       <OfferGrid {...props} />
       <FilterBar {...props} />
-      <ChatWidget {...props} key={props.messages.length} />
+      <ChatWidget {...props} />
     </div>
   );
 };

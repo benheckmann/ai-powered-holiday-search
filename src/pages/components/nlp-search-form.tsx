@@ -9,8 +9,6 @@ import { api } from "~/utils/api";
 export const NLPSearchForm: React.FC<GlobalProps> = (props) => {
   const [userInput, setUserInput] = useState("");
 
-  const addUserMessage = api.llm.addUserMessage.useMutation();
-
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setUserInput(e.target.value);
   };
@@ -23,10 +21,12 @@ export const NLPSearchForm: React.FC<GlobalProps> = (props) => {
 
   const handleSubmit = () => {
     if (userInput.trim() !== "") {
-      addUserMessage.mutate({
-        sessionId: localStorage.getItem("sessionId")!,
+      const sessionId = localStorage.getItem("sessionId")!
+      props.addUserMessage.mutate({
+        sessionId: sessionId,
         messageContent: userInput,
       });
+      props.chatHistory.refetch()
       props.setIsLoading(true);
       props.setCurrentPage(Pages.RESULTS);
     }

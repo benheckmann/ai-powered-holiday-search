@@ -1,20 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
-import { api } from "~/utils/api";
-import { GlobalProps } from "../interfaces/global-props";
-import { Pages } from "../interfaces/page-name-enum";
+import { Message } from "../interfaces/message";
 
-export const ChatWidget: React.FC<GlobalProps> = (props) => {
+export const ChatWidget: React.FC<any> = ({props, chatHistory, addUserMessage}) => {
   const [inputMessage, setInputMessage] = useState("");
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
   };
-
-  const chatHistory = api.llm.getChatHistory.useQuery(props.sessionId);
-  const addUserMessage = api.llm.addUserMessage.useMutation();
 
   const handleMessageSubmit = () => {
     if (inputMessage.trim() !== "") {
@@ -44,7 +38,7 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
         <figure className="bg-primary p-6 text-2xl font-bold text-primary-content">Chat</figure>
         <div className="card-body p-4">
           {chatHistory.isFetched &&
-            chatHistory.data!.map((message, index) => (
+            chatHistory.data!.map((message: Message, index: number) => (
               <div
                 key={index}
                 className={`chat ${message.role === "user" ? "chat-end" : "chat-start"}`}

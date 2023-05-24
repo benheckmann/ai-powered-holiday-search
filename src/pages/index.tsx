@@ -2,14 +2,13 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { v4 } from "uuid";
 
-import { api } from "~/utils/api";
 import { Pages } from "./interfaces/page-name-enum";
 import { useEffect, useState } from "react";
 import { ResultsPage } from "./results-page";
 import { SearchPage } from "./search-page";
 import { GlobalProps } from "./interfaces/global-props";
 import { mockOffers } from "../../public/mock-data/mock-offers";
-import { Message } from "./interfaces/message";
+import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(Pages.SEARCH);
@@ -24,6 +23,11 @@ const Home: NextPage = () => {
   });
   const [cachedOffers, setCachedOffers] = useState(mockOffers);
   const [sessionId, setSessionId] = useState<string>("UNINITIALIZED_SESSION_ID");
+
+  // api
+  const chatHistory = api.llm.getChatHistory.useQuery(sessionId);
+  const addUserMessage = api.llm.addUserMessage.useMutation();
+  const clearChatHistory = api.llm.clearChatHistory.useMutation();
 
   useEffect(() => {
     if (!localStorage.getItem("sessionId")) {
@@ -42,7 +46,9 @@ const Home: NextPage = () => {
       setQuery: setQuery,
       cachedOffers,
       setCachedOffers,
-      sessionId
+      chatHistory,
+      addUserMessage,
+      clearChatHistory,
     };
     switch (currentPage) {
       case Pages.SEARCH:

@@ -4,8 +4,7 @@ import { Configuration, OpenAIApi, ChatCompletionRequestMessageRoleEnum as Role 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { Message } from "~/pages/interfaces/message";
 import { SYSTEM_MESSAGE_ENGLISH } from "../llm/prompts";
-import { ChatHistory, ChatMessage } from "../zod-types/chat-history";
-import EventEmitter from "events";
+import { ChatHistory } from "../zod-types/chat-history";
 
 const sessions: Record<string, Message[]> = {};
 const configuration = new Configuration({
@@ -57,11 +56,11 @@ export const llmRouter = createTRPCRouter({
       ];
     }),
   requestCompletion: publicProcedure.input(z.string()).mutation(async ({ input }) => {
-    const sessionId = input;
-    const messages = sessions[input] ?? [];
+    const id = input;
+    const messages = sessions[id] ?? [];
     if (messages.length > 0 && messages[messages.length - 1]!.role === Role.User) {
-      console.log("requestCompletion", input, new Date().toLocaleTimeString());
-      await addLLMCompletion(input);
+      console.log("requestCompletion", id, new Date().toLocaleTimeString());
+      await addLLMCompletion(id);
     }
   }),
   clearChatHistory: publicProcedure.input(z.string()).mutation(({ input }) => {

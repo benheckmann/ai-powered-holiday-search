@@ -13,7 +13,6 @@ import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(Pages.SEARCH);
-  const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState({
     departureAirport: "",
     destinationAirport: "",

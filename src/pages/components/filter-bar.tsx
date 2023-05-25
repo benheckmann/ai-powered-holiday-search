@@ -12,14 +12,15 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
   const [countChildren, setCountChildren] = useState(props.query.countChildren);
 
   useEffect(() => {
-    props.setQuery({
+    const query = {
       departureAirport,
       destinationAirport,
       departureDate: dateRange[0] || new Date(),
       returnDate: dateRange[1] || new Date(),
       countAdults,
       countChildren,
-    });
+    }
+    props.setQuery(query);
     // perform database query, clear old offers and set new ones
     // TODO
   }, [departureAirport, destinationAirport, dateRange, countAdults, countChildren]);

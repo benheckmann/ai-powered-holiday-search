@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-
 import { Message } from "../interfaces/message";
+import { GlobalProps } from "../interfaces/global-props";
 
-export const ChatWidget: React.FC<any> = ({props, chatHistory, addUserMessage}) => {
+export const ChatWidget: React.FC<GlobalProps> = (props) => {
   const [inputMessage, setInputMessage] = useState("");
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,12 +12,16 @@ export const ChatWidget: React.FC<any> = ({props, chatHistory, addUserMessage}) 
 
   const handleMessageSubmit = () => {
     if (inputMessage.trim() !== "") {
-      addUserMessage.mutate({
+      props.addUserMessage.mutate({
         sessionId: localStorage.getItem("sessionId")!,
         messageContent: inputMessage,
       });
       setInputMessage("");
     }
+  };
+
+  const handleClearHistory = () => {
+    props.clearChatHistory.mutate(localStorage.getItem("sessionId")!);
   };
 
   const handleEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -28,8 +32,8 @@ export const ChatWidget: React.FC<any> = ({props, chatHistory, addUserMessage}) 
 
   return (
     <div
-      className="dropdown-top dropdown-end dropdown fixed bottom-10 right-10 dropdown-open"
-      key={chatHistory.data ? chatHistory.data.length : 0}
+      className="dropdown dropdown-top dropdown-end dropdown-open fixed bottom-10 right-10"
+      key={props.chatHistory.data ? props.chatHistory.data.length : 0}
     >
       <label tabIndex={0} className="btn-circle btn m-1">
         +
@@ -37,8 +41,8 @@ export const ChatWidget: React.FC<any> = ({props, chatHistory, addUserMessage}) 
       <div tabIndex={0} className="card dropdown-content w-80 bg-base-100 shadow-xl">
         <figure className="bg-primary p-6 text-2xl font-bold text-primary-content">Chat</figure>
         <div className="card-body p-4">
-          {chatHistory.isFetched &&
-            chatHistory.data!.map((message: Message, index: number) => (
+          {props.chatHistory.isFetched &&
+            props.chatHistory.data!.map((message: Message, index: number) => (
               <div
                 key={index}
                 className={`chat ${message.role === "user" ? "chat-end" : "chat-start"}`}
@@ -59,6 +63,9 @@ export const ChatWidget: React.FC<any> = ({props, chatHistory, addUserMessage}) 
           />
           <button className="btn" onClick={handleMessageSubmit}>
             Send
+          </button>
+          <button className="btn" onClick={handleClearHistory}>
+            Clear
           </button>
         </div>
       </div>

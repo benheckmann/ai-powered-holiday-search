@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { llmRouter } from "~/server/api/routers/llm-router";
+import { dbRouter } from "./routers/db-router";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +9,7 @@ import { llmRouter } from "~/server/api/routers/llm-router";
  */
 export const appRouter = createTRPCRouter({
   llm: llmRouter,
+  db: dbRouter,
 });
 
 // export type definition of API

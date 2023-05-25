@@ -25,7 +25,7 @@ const addLLMCompletion = async (sessionId: string) => {
     model: "gpt-3.5-turbo",
     messages: [
       { role: Role.System, content: SYSTEM_MESSAGE_ENGLISH },
-      ...messagesToOpenAIFormat(sessions[sessionId]!),
+      ...messagesToOpenAIFormat(sessions[sessionId] ?? []),
     ],
   });
   const chatCompletion = response.data.choices[0]!.message!;
@@ -55,9 +55,16 @@ export const llmRouter = createTRPCRouter({
         ...(sessions[sessionId] ?? []),
         { role: Role.User, content: messageContent },
       ];
-      addLLMCompletion(sessionId);
     }),
-  clearChatHistory: publicProcedure.input(z.string()).mutation(async ({ input }) => {
+  requestCompletion: publicProcedure.input(z.string()).mutation(async ({ input }) => {
+    const sessionId = input;
+    const messages = sessions[input] ?? [];
+    if (messages.length > 0 && messages[messages.length - 1]!.role === Role.User) {
+      console.log("requestCompletion", input, new Date().toLocaleTimeString());
+      await addLLMCompletion(input);
+    }
+  }),
+  clearChatHistory: publicProcedure.input(z.string()).mutation(({ input }) => {
     console.log("clearChatHistory", input, new Date().toLocaleTimeString());
     sessions[input] = [];
   }),

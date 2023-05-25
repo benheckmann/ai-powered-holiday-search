@@ -12,9 +12,6 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
   const [countChildren, setCountChildren] = useState(props.query.countChildren);
 
   useEffect(() => {
-    // activate loading animation
-    props.setIsLoading(true);
-    // update query in global state
     props.setQuery({
       departureAirport,
       destinationAirport,

@@ -19,15 +19,12 @@ export const NLPSearchForm: React.FC<GlobalProps> = (props) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (userInput.trim() !== "") {
-      const sessionId = localStorage.getItem("sessionId")!
       props.addUserMessage.mutate({
-        sessionId: sessionId,
+        sessionId: localStorage.getItem("sessionId")!,
         messageContent: userInput,
       });
-      props.chatHistory.refetch()
-      props.setIsLoading(true);
       props.setCurrentPage(Pages.RESULTS);
     }
   };

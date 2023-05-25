@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { v4 } from "uuid";
+import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
 import { Pages } from "./interfaces/page-name-enum";
 import { useEffect, useState } from "react";
@@ -24,11 +25,7 @@ const Home: NextPage = () => {
   const [cachedOffers, setCachedOffers] = useState(mockOffers);
   const [sessionId, setSessionId] = useState<string>("UNINITIALIZED_SESSION_ID");
 
-  // api
-  const chatHistory = api.llm.getChatHistory.useQuery(sessionId);
-  const addUserMessage = api.llm.addUserMessage.useMutation();
-  const clearChatHistory = api.llm.clearChatHistory.useMutation();
-
+  // initialize sessionId
   useEffect(() => {
     if (!localStorage.getItem("sessionId")) {
       localStorage.setItem("sessionId", v4());
@@ -36,12 +33,32 @@ const Home: NextPage = () => {
     setSessionId(localStorage.getItem("sessionId")!);
   }, []);
 
+  // initialize api
+  const chatHistory = api.llm.getChatHistory.useQuery(sessionId);
+  const requestCompletion = api.llm.requestCompletion.useMutation({
+    onSuccess: () => {
+      console.log("requestCompletion success");
+      chatHistory.refetch();
+    },
+  });
+  const addUserMessage = api.llm.addUserMessage.useMutation({
+    onSuccess: () => {
+      console.log("addUserMessage success");
+      chatHistory.refetch();
+      requestCompletion.mutateAsync(sessionId);
+    },
+  });
+  const clearChatHistory = api.llm.clearChatHistory.useMutation({
+    onSuccess: () => {
+      console.log("clearChatHistory success");
+      chatHistory.refetch();
+    },
+  });
+
   const renderPage = () => {
     const props: GlobalProps = {
       currentPage,
       setCurrentPage,
-      isLoading,
-      setIsLoading,
       query: query,
       setQuery: setQuery,
       cachedOffers,
@@ -49,6 +66,7 @@ const Home: NextPage = () => {
       chatHistory,
       addUserMessage,
       clearChatHistory,
+      requestCompletion,
     };
     switch (currentPage) {
       case Pages.SEARCH:

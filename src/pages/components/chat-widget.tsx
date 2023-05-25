@@ -28,7 +28,7 @@ export const ChatWidget: React.FC<any> = ({props, chatHistory, addUserMessage}) 
 
   return (
     <div
-      className="dropdown-top dropdown-end dropdown fixed bottom-10 right-10"
+      className="dropdown-top dropdown-end dropdown fixed bottom-10 right-10 dropdown-open"
       key={chatHistory.data ? chatHistory.data.length : 0}
     >
       <label tabIndex={0} className="btn-circle btn m-1">
@@ -46,7 +46,7 @@ export const ChatWidget: React.FC<any> = ({props, chatHistory, addUserMessage}) 
                 <div className="chat-bubble">{message.content}</div>
               </div>
             ))}
-          {props.isLoading && <progress className="progress w-56"></progress>}
+          {props.requestCompletion.isLoading && <progress className="progress w-56"></progress>}
         </div>
         <div className="card-actions flex flex-nowrap items-center justify-end bg-base-200 p-4">
           <input

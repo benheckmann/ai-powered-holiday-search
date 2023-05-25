@@ -9,19 +9,20 @@ import { api } from "~/utils/api";
 
 export const ResultsPage: NextPage<GlobalProps> = (props) => {
   // hack: refetch chat history every 500ms to check for new messages
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (props.isLoading) {
-        props.chatHistory.refetch();
-        if (!props.chatHistory.isPreviousData) {
-          props.setIsLoading(false); // todo: change this to a check where we know that the bot is done
-        }
-      }
-    }, 500);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [props.isLoading]);
+  // useEffect(() => {
+    // const interval = setInterval(() => {
+    //   if (props.isLoading) {
+    //     props.chatHistory.refetch();
+    //     if (!props.chatHistory.isPreviousData) {
+    //       props.setIsLoading(false); // todo: change this to a check where we know that the bot is done
+    //     }
+    //   }
+    // }, 500);
+    // return () => {
+    //   clearInterval(interval);
+    // };
+  //   props.chatHistory.refetch()
+  // }, [props.requestCompletion.isSuccess, props.addUserMessage.isSuccess]);
 
   return (
     <div>

@@ -2,8 +2,8 @@ import { ChangeEventHandler, useEffect, useState } from "react";
 
 import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
-import { Pages } from "../interfaces/page-name-enum";
-import { GlobalProps } from "../interfaces/global-props";
+import { Pages } from "../../utils/types/page-name-enum";
+import { GlobalProps } from "../../utils/types/global-props";
 import { api } from "~/utils/api";
 
 export const NLPSearchForm: React.FC<GlobalProps> = (props) => {

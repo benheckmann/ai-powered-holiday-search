@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { ZodQuery, ZodOffer, ZodOfferWithHotel } from "../zod-types/db-query";
+import { ZodQuery, ZodOffer, ZodOfferWithHotel } from "../api-types/db-query";
 import { prisma } from "~/server/db";
 
 const PAGE_SIZE = 36;
@@ -17,11 +17,11 @@ export const dbRouter = createTRPCRouter({
         skip: PAGE_SIZE * pageNumber,
         where: {
           outbounddepartureairport: filters.departureAirport,
-          inboundarrivalairport: filters.destinationAirport,
+          outboundarrivalairport: filters.destinationAirport,
           outbounddeparturedatetime: {
             gte: filters.departureDate,
           },
-          inbounddeparturedatetime: {
+          inboundarrivaldatetime: {
             lte: filters.returnDate,
           },
           countadults: filters.countAdults,

@@ -1,4 +1,4 @@
-import { OfferCardProps } from "../interfaces/offer-card-props";
+import { OfferCardProps } from "../../utils/types/offer-card-props";
 
 export const OfferCard: React.FC<OfferCardProps> = (props) => (
   <div className="card w-full bg-base-100 shadow-xl">

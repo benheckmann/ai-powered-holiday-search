@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
-import { Message } from "../interfaces/message";
-import { GlobalProps } from "../interfaces/global-props";
+import { Message } from "../../utils/types/message";
+import { GlobalProps } from "../../utils/types/global-props";
 
 export const ChatWidget: React.FC<GlobalProps> = (props) => {
   const [inputMessage, setInputMessage] = useState("");
@@ -30,9 +31,27 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
     }
   };
 
+  const renderChatBubble = (message: Message, index: number) => {
+    let text = message.content;
+    if (message.role === Role.Assistant) {
+      try {
+        const parsedJson = JSON.parse(message.content);
+        text = parsedJson.chatResponse;
+      } catch (e) {
+        text =
+          "Tut mir leid, etwas ist schief gelaufen. Bitte versuche es noch einmal oder leere den Chat.";
+      }
+    }
+    return (
+      <div key={index} className={`chat ${message.role === Role.User ? "chat-end" : "chat-start"}`}>
+        <div className="chat-bubble">{text}</div>
+      </div>
+    );
+  };
+
   return (
     <div
-      className="dropdown dropdown-top dropdown-end dropdown-open fixed bottom-10 right-10"
+      className="dropdown-top dropdown-end dropdown-open dropdown fixed bottom-10 right-10"
       key={props.chatHistory.data ? props.chatHistory.data.length : 0}
     >
       <label tabIndex={0} className="btn-circle btn m-1">
@@ -41,15 +60,7 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
       <div tabIndex={0} className="card dropdown-content w-80 bg-base-100 shadow-xl">
         <figure className="bg-primary p-6 text-2xl font-bold text-primary-content">Chat</figure>
         <div className="card-body p-4">
-          {props.chatHistory.isFetched &&
-            props.chatHistory.data!.map((message: Message, index: number) => (
-              <div
-                key={index}
-                className={`chat ${message.role === "user" ? "chat-end" : "chat-start"}`}
-              >
-                <div className="chat-bubble">{message.content}</div>
-              </div>
-            ))}
+          {props.chatHistory.isFetched && props.chatHistory.data!.map(renderChatBubble)}
           {props.requestCompletion.isLoading && <progress className="progress w-56"></progress>}
         </div>
         <div className="card-actions flex flex-nowrap items-center justify-end bg-base-200 p-4">

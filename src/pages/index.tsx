@@ -3,16 +3,17 @@ import Head from "next/head";
 import { v4 } from "uuid";
 import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
-import { Pages } from "./interfaces/page-name-enum";
+import { Pages } from "../utils/types/page-name-enum";
 import { useEffect, useState } from "react";
 import { ResultsPage } from "./results-page";
 import { SearchPage } from "./search-page";
-import { GlobalProps } from "./interfaces/global-props";
+import { GlobalProps } from "../utils/types/global-props";
 import { mockOffers } from "../../public/mock-data/mock-offers";
 import { api } from "~/utils/api";
+import { isLLMJson } from "~/utils/types/llm-json";
 
 const Home: NextPage = () => {
-  const [currentPage, setCurrentPage] = useState(Pages.SEARCH);
+  const [currentPage, setCurrentPage] = useState(Pages.RESULTS);
   const [query, setQuery] = useState({
     filters: {
       departureAirport: "",
@@ -36,7 +37,17 @@ const Home: NextPage = () => {
   }, []);
 
   // initialize api
-  const chatHistory = api.llm.getChatHistory.useQuery(sessionId);
+  const chatHistory = api.llm.getChatHistory.useQuery(sessionId, {
+    onSuccess: (data) => {
+      if (data.length > 0) {
+        const lastMessage = data[data.length - 1]!;
+        if (lastMessage.role === Role.Assistant && isLLMJson(lastMessage.content)) {
+          const newFilters = JSON.parse(lastMessage.content).filters;
+          setQuery({ filters: newFilters, pageNumber: 0 });
+        }
+      }
+    },
+  });
   const requestCompletion = api.llm.requestCompletion.useMutation({
     onSuccess: () => {
       console.log("requestCompletion success");
@@ -62,15 +73,15 @@ const Home: NextPage = () => {
     const props: GlobalProps = {
       currentPage,
       setCurrentPage,
-      query: query,
-      setQuery: setQuery,
+      query,
+      setQuery,
       cachedOffers,
       setCachedOffers,
       chatHistory,
       addUserMessage,
       clearChatHistory,
       requestCompletion,
-      results
+      results,
     };
     switch (currentPage) {
       case Pages.SEARCH:

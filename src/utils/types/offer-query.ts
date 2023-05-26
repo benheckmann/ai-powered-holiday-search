@@ -1,4 +1,4 @@
-interface OfferQuery {
+interface OfferQuery { // not yet being used
   offerid?: number;
   hotelid?: number;
   outbounddeparturedatetime?: Date;

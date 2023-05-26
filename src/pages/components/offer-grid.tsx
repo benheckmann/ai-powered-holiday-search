@@ -1,4 +1,4 @@
-import { GlobalProps } from "../interfaces/global-props";
+import { GlobalProps } from "../../utils/types/global-props";
 import { OfferCard } from "./offer-card";
 
 export const OfferGrid: React.FC<GlobalProps> = (props) => {

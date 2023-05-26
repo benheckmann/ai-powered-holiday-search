@@ -1,14 +1,14 @@
 import moment from "moment";
 import { useState } from "react";
 import { DateRangePicker, FocusedInputShape } from "react-dates";
-import { GlobalProps } from "../interfaces/global-props";
+import { GlobalProps } from "../../utils/types/global-props";
 
 import "react-dates/initialize";
 
 export const DateRangePickerWrapper: React.FC<GlobalProps> = (props) => {
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(null);
-  const [startDate, setStartDate] = useState(moment(props.query.departureDate));
-  const [endDate, setEndDate] = useState(moment(props.query.returnDate));
+  const [startDate, setStartDate] = useState(moment(props.query.filters.departureDate));
+  const [endDate, setEndDate] = useState(moment(props.query.filters.returnDate));
 
   const handleDatesChange = ({ startDate, endDate }: any) => {
     setStartDate(startDate);

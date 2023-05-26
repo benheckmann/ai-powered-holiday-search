@@ -2,9 +2,14 @@ import { z } from "zod";
 import { Configuration, OpenAIApi, ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { Message } from "~/pages/interfaces/message";
-import { SYSTEM_MESSAGE_ENGLISH } from "../llm/prompts";
-import { ZodChatMessage } from "../zod-types/chat-history";
+import { Message } from "~/utils/types/message";
+import {
+  JSON_CHECK_FAILED_ENGLISH,
+  SYSTEM_MESSAGE_GERMAN,
+  USER_MESSAGE_PREFIX_GERMAN,
+} from "../llm/prompts";
+import { ZodChatMessage } from "../../../utils/types/chat-history";
+import { errorResponse, isLLMJson } from "~/utils/types/llm-json";
 
 const sessions: Record<string, Message[]> = {};
 const configuration = new Configuration({
@@ -19,17 +24,40 @@ const messagesToOpenAIFormat = (messages: Message[]) => {
   }));
 };
 
+const addFirstMessagePrefix = (messages: Message[]) => {
+  if (messages.length === 0) {
+    return [];
+  }
+  const newFirstMessage = {
+    role: Role.User,
+    content: USER_MESSAGE_PREFIX_GERMAN + messages[0]!.content,
+  };
+  return [newFirstMessage, ...messages.slice(1)];
+};
+
+const checkLLMCompletion = async (sessionId: string, completionContent: string) => {
+  if (isLLMJson(completionContent)) return completionContent;
+  const response = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [{ role: Role.User, content: JSON_CHECK_FAILED_ENGLISH + completionContent }],
+  });
+  const newCompletionContent = response.data.choices[0]!.message!.content;
+  if (isLLMJson(newCompletionContent)) return newCompletionContent;
+  return JSON.stringify(errorResponse);
+};
+
 const addLLMCompletion = async (sessionId: string) => {
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
-      { role: Role.System, content: SYSTEM_MESSAGE_ENGLISH },
-      ...messagesToOpenAIFormat(sessions[sessionId] ?? []),
+      { role: Role.System, content: SYSTEM_MESSAGE_GERMAN },
+      ...messagesToOpenAIFormat(addFirstMessagePrefix(sessions[sessionId] ?? [])),
     ],
   });
-  const chatCompletion = response.data.choices[0]!.message!;
-  console.log("addLLMCompletion done", chatCompletion);
-  sessions[sessionId]!.push({ role: Role.System, content: chatCompletion.content });
+  const completionContent = response.data.choices[0]!.message!.content;
+  await checkLLMCompletion(sessionId, completionContent);
+  console.log("addLLMCompletion done", completionContent);
+  sessions[sessionId]!.push({ role: Role.System, content: completionContent });
 };
 
 export const llmRouter = createTRPCRouter({

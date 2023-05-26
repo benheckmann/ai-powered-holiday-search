@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GlobalProps } from "../interfaces/global-props";
+import { GlobalProps } from "../../utils/types/global-props";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -88,7 +88,7 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
           <div>
             <button
               onClick={handleSubmitFields}
-              className="bg-white rounded px-3 py-2 font-bold text-primary"
+              className="bg-white rounded px-3 py-2 font-bold text-base-100"
               aria-label="Submit"
             >
               Submit

@@ -47,7 +47,7 @@ model Offer {
   inbounddeparturedatetime  DateTime
   countadults               Int
   countchildren             Int
-  price                     Float
+  price                     Float    @db.Float
   inbounddepartureairport   String
   outboundarrivalairport    String
   inboundarrivaldatetime    DateTime
@@ -57,16 +57,15 @@ model Offer {
   mealtype                  String
   oceanview                 String
   roomtype                  String
-  Hotel                     Hotel    @relation(fields: [hotelid], references: [hotelid])
 
+  @@index([hotelid], map: "newoffers_hotelid_fkey")
   @@map("newoffers")
 }
 
 model Hotel {
-  hotelid    Int     @id
+  hotelid    Int    @id
   hotelname  String
-  hotelstars Float
-  Offers     Offer[]
+  hotelstars Int
 
   @@map("newhotels")
 }

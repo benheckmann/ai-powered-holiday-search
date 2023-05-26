@@ -14,12 +14,15 @@ import { api } from "~/utils/api";
 const Home: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(Pages.SEARCH);
   const [query, setQuery] = useState({
-    departureAirport: "",
-    destinationAirport: "",
-    departureDate: new Date(2023, 8, 1),
-    returnDate: new Date(2023, 8, 7),
-    countAdults: "",
-    countChildren: "",
+    filters: {
+      departureAirport: "",
+      destinationAirport: "",
+      departureDate: new Date(2023, 8, 1),
+      returnDate: new Date(2023, 8, 7),
+      countAdults: 0,
+      countChildren: 0,
+    },
+    pageNumber: 0,
   });
   const [cachedOffers, setCachedOffers] = useState(mockOffers);
   const [sessionId, setSessionId] = useState<string>("UNINITIALIZED_SESSION_ID");
@@ -53,6 +56,7 @@ const Home: NextPage = () => {
       chatHistory.refetch();
     },
   });
+  const results = api.db.search.useQuery(query);
 
   const renderPage = () => {
     const props: GlobalProps = {
@@ -66,6 +70,7 @@ const Home: NextPage = () => {
       addUserMessage,
       clearChatHistory,
       requestCompletion,
+      results
     };
     switch (currentPage) {
       case Pages.SEARCH:

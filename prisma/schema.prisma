@@ -47,7 +47,7 @@ model Offer {
   inbounddeparturedatetime  DateTime
   countadults               Int
   countchildren             Int
-  price                     Decimal
+  price                     Float
   inbounddepartureairport   String
   outboundarrivalairport    String
   inboundarrivaldatetime    DateTime
@@ -57,6 +57,7 @@ model Offer {
   mealtype                  String
   oceanview                 String
   roomtype                  String
+  Hotel                     Hotel    @relation(fields: [hotelid], references: [hotelid])
 
   @@map("newoffers")
 }
@@ -64,7 +65,8 @@ model Offer {
 model Hotel {
   hotelid    Int     @id
   hotelname  String
-  hotelstars Decimal
+  hotelstars Float
+  Offers     Offer[]
 
   @@map("newhotels")
 }

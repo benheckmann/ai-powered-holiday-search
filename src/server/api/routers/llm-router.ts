@@ -4,7 +4,7 @@ import { Configuration, OpenAIApi, ChatCompletionRequestMessageRoleEnum as Role 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { Message } from "~/pages/interfaces/message";
 import { SYSTEM_MESSAGE_ENGLISH } from "../llm/prompts";
-import { ChatHistory } from "../zod-types/chat-history";
+import { ZodChatMessage } from "../zod-types/chat-history";
 
 const sessions: Record<string, Message[]> = {};
 const configuration = new Configuration({
@@ -35,7 +35,7 @@ const addLLMCompletion = async (sessionId: string) => {
 export const llmRouter = createTRPCRouter({
   getChatHistory: publicProcedure
     .input(z.string())
-    .output(ChatHistory)
+    .output(z.array(ZodChatMessage))
     .query(({ input }) => {
       console.log("getChatHistory", input, new Date().toLocaleTimeString());
       return sessions[input] ?? [];

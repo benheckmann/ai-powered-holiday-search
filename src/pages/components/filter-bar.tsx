@@ -5,28 +5,31 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export const FilterBar: React.FC<GlobalProps> = (props) => {
-  const [departureAirport, setDepartureAirport] = useState(props.query.departureAirport);
-  const [destinationAirport, setDestinationAirport] = useState(props.query.destinationAirport);
-  const [dateRange, setDateRange] = useState([props.query.departureDate, props.query.returnDate]);
-  const [countAdults, setCountAdults] = useState(props.query.countAdults);
-  const [countChildren, setCountChildren] = useState(props.query.countChildren);
+  const filters = props.query.filters;
+  const [departureAirportField, setDepartureAirportField] = useState(filters.departureAirport);
+  const [destinationAirportField, setDestinationAirportField] = useState(
+    filters.destinationAirport
+  );
+  const [dateRangeField, setDateRangeField] = useState([filters.departureDate, filters.returnDate]);
+  const [countAdultsField, setCountAdultsField] = useState(filters.countAdults);
+  const [countChildrenField, setCountChildrenField] = useState(filters.countChildren);
 
-  useEffect(() => {
-    const query = {
-      departureAirport,
-      destinationAirport,
-      departureDate: dateRange[0] || new Date(),
-      returnDate: dateRange[1] || new Date(),
-      countAdults,
-      countChildren,
-    }
-    props.setQuery(query);
-    // perform database query, clear old offers and set new ones
-    // TODO
-  }, [departureAirport, destinationAirport, dateRange, countAdults, countChildren]);
+  const handleSubmitFields = () => {
+    const newFilters = {
+      departureAirport: departureAirportField,
+      destinationAirport: destinationAirportField,
+      departureDate: dateRangeField[0] || new Date(),
+      returnDate: dateRangeField[1] || new Date(),
+      countAdults: countAdultsField,
+      countChildren: countChildrenField,
+    };
+    props.setQuery({
+      filters: newFilters,
+      pageNumber: 0,
+    });
+  };
 
   return (
-    // TODO add a back button
     <div className="fixed top-0 w-full bg-primary">
       <div className="container mx-auto">
         <div className="flex justify-evenly p-5">
@@ -34,8 +37,8 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
             <label className="text-white block">Departure Airport</label>
             <input
               type="text"
-              value={props.query.departureAirport}
-              onChange={(e) => setDepartureAirport(e.target.value)}
+              value={departureAirportField}
+              onChange={(e) => setDepartureAirportField(e.target.value)}
               className="w-full rounded px-3 py-2"
               aria-label="Departure Airport"
             />
@@ -44,8 +47,8 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
             <label className="text-white block">Destination Airport</label>
             <input
               type="text"
-              value={destinationAirport}
-              onChange={(e) => setDestinationAirport(e.target.value)}
+              value={destinationAirportField}
+              onChange={(e) => setDestinationAirportField(e.target.value)}
               className="w-full rounded px-3 py-2"
               aria-label="Destination Airport"
             />
@@ -54,10 +57,10 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
             <label className="text-white block">Dates</label>
             <DatePicker
               selectsRange={true}
-              startDate={dateRange[0]}
-              endDate={dateRange[1]}
+              startDate={dateRangeField[0]}
+              endDate={dateRangeField[1]}
               onChange={([startDate, endDate]) => {
-                setDateRange([startDate!, endDate!]);
+                setDateRangeField([startDate!, endDate!]);
               }}
               isClearable={true}
             />
@@ -66,8 +69,8 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
             <label className="text-white block">Adults</label>
             <input
               type="number"
-              value={countAdults}
-              onChange={(e) => setCountAdults(e.target.value)}
+              value={countAdultsField}
+              onChange={(e) => setCountAdultsField(parseInt(e.target.value))}
               className="w-full rounded px-3 py-2"
               aria-label="Adults"
             />
@@ -76,11 +79,20 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
             <label className="text-white block">Children</label>
             <input
               type="number"
-              value={countChildren}
-              onChange={(e) => setCountChildren(e.target.value)}
+              value={countChildrenField}
+              onChange={(e) => setCountChildrenField(parseInt(e.target.value))}
               className="w-full rounded px-3 py-2"
               aria-label="Children"
             />
+          </div>
+          <div>
+            <button
+              onClick={handleSubmitFields}
+              className="bg-white rounded px-3 py-2 font-bold text-primary"
+              aria-label="Submit"
+            >
+              Submit
+            </button>
           </div>
         </div>
       </div>

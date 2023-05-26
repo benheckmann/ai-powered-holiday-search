@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const HolidayQuery = z.object({
+export const ZodQuery = z.object({
   departureAirport: z.string(),
   destinationAirport: z.string(),
   departureDate: z.date(),
@@ -9,7 +9,7 @@ export const HolidayQuery = z.object({
   countChildren: z.number(),
 });
 
-export const Offer = z.object({
+export const ZodOffer = z.object({
   offerid: z.number().int(),
   hotelid: z.number().int(),
   outbounddeparturedatetime: z.date(),
@@ -28,8 +28,14 @@ export const Offer = z.object({
   roomtype: z.string(),
 });
 
-export const Hotel = z.object({
+export const ZodHotel = z.object({
   hotelid: z.number().int(),
   hotelname: z.string(),
-  hotelstars: z.number(),
+  hotelstars: z.number(), // alternative: z.instanceof(Prisma.Decimal);
 });
+
+export const ZodOfferWithHotel = ZodOffer.merge(
+  z.object({
+    Hotel: ZodHotel,
+  })
+);

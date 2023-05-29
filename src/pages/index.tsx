@@ -50,20 +50,20 @@ const Home: NextPage = () => {
   });
   const requestCompletion = api.llm.requestCompletion.useMutation({
     onSuccess: () => {
-      console.log("requestCompletion success");
+      console.log("requestCompletion success", new Date().toLocaleTimeString());
       chatHistory.refetch();
     },
   });
   const addUserMessage = api.llm.addUserMessage.useMutation({
     onSuccess: () => {
-      console.log("addUserMessage success");
+      console.log("addUserMessage success", new Date().toLocaleTimeString());
       chatHistory.refetch();
       requestCompletion.mutateAsync(sessionId);
     },
   });
   const clearChatHistory = api.llm.clearChatHistory.useMutation({
     onSuccess: () => {
-      console.log("clearChatHistory success");
+      console.log("clearChatHistory success", new Date().toLocaleTimeString());
       chatHistory.refetch();
     },
   });

@@ -57,8 +57,14 @@ model Offer {
   mealtype                  String
   oceanview                 String
   roomtype                  String
+  Hotel                     Hotel    @relation(fields: [hotelid], references: [hotelid])
 
   @@index([hotelid], map: "newoffers_hotelid_fkey")
+  @@index([inboundarrivalairport], map: "idx_inboundarrivalairport")
+  @@index([inboundarrivaldatetime], map: "idx_inboundarrivaldatetime")
+  @@index([outboundarrivalairport], map: "idx_outboundarrivalairport")
+  @@index([outbounddepartureairport], map: "idx_outbounddepartureairport")
+  @@index([outbounddeparturedatetime], map: "idx_outbounddeparturedatetime")
   @@map("newoffers")
 }
 
@@ -66,6 +72,8 @@ model Hotel {
   hotelid    Int    @id
   hotelname  String
   hotelstars Int
+  Offers     Offer[]
 
+  @@index([hotelstars], map: "idx_hotelstars")
   @@map("newhotels")
 }

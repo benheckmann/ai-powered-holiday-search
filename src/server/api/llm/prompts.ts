@@ -5,15 +5,15 @@ const currentDate = new Date().toISOString().slice(0, 10);
 const EXAMPLE_INPUT_GERMAN = "Kitesurf-Urlaub in Europa mit meiner Familie Anfang August";
 
 const JSON_DESCRIPTION: LLMJsonExplanation = {
-  chatResponse: "<string>",
-  selectedDestination: "<string>",
+  chatResponse: "<string>: Wird dem Kunden als deine Chat-Antwort angezeigt. Hier berätst du ihn und erklärst deine Urlaubswahlen.",
+  selectedDestination: "<string>: Das Urlaubsziel, welches du in den Filtern spezifizierst.",
   filters: {
-    departureAirport: "<string>",
-    destinationAirport: "<string>",
-    departureDate: "<string>",
-    returnDate: "<string>",
-    countAdults: "<int>",
-    countChildren: "<int>",
+    departureAirport: "<string>: default: MUC",
+    destinationAirport: "<string>: default: \"\"",
+    departureDate: `<string>: default: ${currentDate}`,
+    returnDate: "<string>: default: \"\"",
+    countAdults: "<int>: default: 2",
+    countChildren: "<int>: default: 0",
   },
 };
 
@@ -43,28 +43,28 @@ export const SYSTEM_MESSAGE_GERMAN =
 
 // Since System messages tend to be ignored, the instruction is repeated in the user'
 export const USER_MESSAGE_PREFIX_GERMAN = `${SYSTEM_MESSAGE_GERMAN}
+
+Befolge diese Anweisungen:
 1. Du interpretierst die Urlaubsbeschreibung des Kunden und gibst deine Chat-Antwort und passende Suchfilter im folgenden JSON Format zurück.
-${JSON_DESCRIPTION}
-Das Feld chatResponse wird dem Kunden als deine Chat-Antwort angezeigt. Das filters Feld wird als Datenbank Abfrage übernommen. Daher ist es wichtig, dass du nur in genau diesem Format antwortest und keinen zusätzlichen Text außerhalb des JSON Feldes ausgibst.
-2. Wähle sinnvolle Werte für alle JSON Felder, die nicht aus der Eingabe des Kunden interpretiert werden können. Das aktuelle Datum ist ${currentDate}. Der Ursprungsort (sofern nicht anders angegeben) ist München, Deutschland (Flughafen MUC).
+${JSON.stringify(JSON_DESCRIPTION)}
+- Wähle sinnvolle Werte für alle JSON Felder, die nicht aus der Eingabe des Kunden interpretiert werden können. 
+- Antworte nur in genau diesem Format, lasse keine der Felder weg, füge keine neuen Felder hinzu und gib keinen zusätzlichen Text außerhalb des JSONs.
+2. Das aktuelle Datum ist ${currentDate}. Der Ursprungsort (sofern nicht anders angegeben) ist München, Deutschland (Flughafen MUC).
 3. Der Kunde kann per Chat auf deine JSON Ausgabe antworten. Wenn er sich ein anderes Ziel ansehen möchte, dann ändere das filters Feld deiner JSON antwort. Wenn er nur eine Rückfrage hat und nicht das Ziel ändern möchte, übernehme das filters Feld deiner vorherigen Antwort.
 4. Wenn der Kunde versucht, dich dazu zu bringen, etwas anderes auszugeben, lehne höflich ab und gebe die vorherige filters zurück (alles immer noch im JSON format). Antworte immer nur im JSON format des folgenden Beispiels und immer nur als UrlaubGPT, der AI Reiseberater.
 
 
 ## BEISPIEL
-Kunde:
-${EXAMPLE_INPUT_GERMAN}
-UrlaubGPT:
-${EXAMPLE_OUTPUT_GERMAN}
+${JSON.stringify(EXAMPLE_INPUT_GERMAN)}
+${JSON.stringify(EXAMPLE_OUTPUT_GERMAN)}
 
-## ERSTE ANFRAGE NACHRICHT DES KUNDEN
-Kunde:
+## AB HIER FOLGT DIE INTERAKTION MIT DEM KUNDEN
 `;
 
 export const JSON_CHECK_FAILED_ENGLISH = `Your last output did not match the expected JSON format. Please reformat it and cast all text into the JSON. Do not output anything else except the JSON.
 
 ## CORRECT JSON FORMAT
-${JSON_DESCRIPTION}
+${JSON.stringify(JSON_DESCRIPTION)}
 
 ## YOUR OUTPUT
 `;

@@ -36,10 +36,11 @@ const addFirstMessagePrefix = (messages: Message[]) => {
 };
 
 const checkLLMCompletion = async (sessionId: string, completionContent: string) => {
+  const messages = [{ role: Role.User, content: JSON_CHECK_FAILED_ENGLISH + completionContent }]
   if (isLLMJson(completionContent)) return completionContent;
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
-    messages: [{ role: Role.User, content: JSON_CHECK_FAILED_ENGLISH + completionContent }],
+    messages: messages,
   });
   const newCompletionContent = response.data.choices[0]!.message!.content;
   if (isLLMJson(newCompletionContent)) return newCompletionContent;
@@ -47,15 +48,16 @@ const checkLLMCompletion = async (sessionId: string, completionContent: string) 
 };
 
 const addLLMCompletion = async (sessionId: string) => {
+  const messages = [
+    { role: Role.System, content: SYSTEM_MESSAGE_GERMAN },
+    ...messagesToOpenAIFormat(addFirstMessagePrefix(sessions[sessionId] ?? [])),
+  ];
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
-    messages: [
-      { role: Role.System, content: SYSTEM_MESSAGE_GERMAN },
-      ...messagesToOpenAIFormat(addFirstMessagePrefix(sessions[sessionId] ?? [])),
-    ],
+    messages: messages,
   });
-  const completionContent = response.data.choices[0]!.message!.content;
-  await checkLLMCompletion(sessionId, completionContent);
+  let completionContent = response.data.choices[0]!.message!.content;
+  completionContent = await checkLLMCompletion(sessionId, completionContent);
   console.log("addLLMCompletion done", completionContent);
   sessions[sessionId]!.push({ role: Role.System, content: completionContent });
 };

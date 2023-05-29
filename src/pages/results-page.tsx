@@ -9,7 +9,6 @@ import { api } from "~/utils/api";
 import { PageNavigationFooter } from "./components/page-navigation-footer";
 
 export const ResultsPage: NextPage<GlobalProps> = (props) => {
-
   return (
     <div>
       <OfferGrid {...props} />

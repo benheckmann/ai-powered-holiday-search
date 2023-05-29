@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { ZodQuery, ZodOffer, ZodOfferWithHotel } from "~/utils/types/db-query"
+import { ZodQuery, ZodOffer, ZodOfferWithHotel } from "~/utils/types/db-query";
 import { prisma } from "~/server/db";
 
-const PAGE_SIZE = 36;
+const PAGE_SIZE = 12;
 
 export const dbRouter = createTRPCRouter({
   search: publicProcedure
@@ -12,25 +12,34 @@ export const dbRouter = createTRPCRouter({
     .query(async ({ input }) => {
       const { filters, pageNumber } = input;
       console.log("search", input, new Date().toLocaleTimeString());
+      const where: any = {};
+      if (filters.departureAirport) {
+        where.outbounddepartureairport = filters.departureAirport;
+      }
+      if (filters.destinationAirport) {
+        where.outboundarrivalairport = filters.destinationAirport;
+      }
+      if (filters.departureDate) {
+        where.outbounddeparturedatetime = { gte: filters.departureDate };
+      }
+      if (filters.returnDate) {
+        where.inboundarrivaldatetime = { lte: filters.returnDate };
+      }
+      if (filters.countAdults) {
+        where.countadults = filters.countAdults;
+      }
+      if (filters.countChildren) {
+        where.countchildren = filters.countChildren;
+      }
       const offers = await prisma.offer.findMany({
         take: PAGE_SIZE,
         skip: PAGE_SIZE * pageNumber,
-        where: {
-          outbounddepartureairport: filters.departureAirport,
-          outboundarrivalairport: filters.destinationAirport,
-          outbounddeparturedatetime: {
-            gte: filters.departureDate,
-          },
-          inboundarrivaldatetime: {
-            lte: filters.returnDate,
-          },
-          countadults: filters.countAdults,
-          countchildren: filters.countChildren,
-        },
+        where,
         include: {
           Hotel: true,
         },
       });
+      console.log("search done", offers.length, new Date().toLocaleTimeString());
       return offers;
     }),
 });

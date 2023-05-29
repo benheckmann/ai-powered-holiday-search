@@ -14,6 +14,14 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
   const [countAdultsField, setCountAdultsField] = useState(filters.countAdults);
   const [countChildrenField, setCountChildrenField] = useState(filters.countChildren);
 
+  useEffect(() => {
+    setDepartureAirportField(filters.departureAirport);
+    setDestinationAirportField(filters.destinationAirport);
+    setDateRangeField([filters.departureDate, filters.returnDate]);
+    setCountAdultsField(filters.countAdults);
+    setCountChildrenField(filters.countChildren);
+  }, [props.query]);
+
   const handleSubmitFields = () => {
     const newFilters = {
       departureAirport: departureAirportField,

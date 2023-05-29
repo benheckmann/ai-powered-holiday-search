@@ -51,13 +51,13 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
 
   return (
     <div
-      className="dropdown-top dropdown-end dropdown-open dropdown fixed bottom-10 right-10"
+      className="dropdown dropdown-top dropdown-end dropdown-open fixed bottom-10 right-10"
       key={props.chatHistory.data ? props.chatHistory.data.length : 0}
     >
       <label tabIndex={0} className="btn-circle btn m-1">
         +
       </label>
-      <div tabIndex={0} className="card dropdown-content w-80 bg-base-100 shadow-xl">
+      <div tabIndex={0} className="w-160 card dropdown-content bg-base-100 shadow-xl">
         <figure className="bg-primary p-6 text-2xl font-bold text-primary-content">Chat</figure>
         <div className="card-body p-4">
           {props.chatHistory.isFetched && props.chatHistory.data!.map(renderChatBubble)}

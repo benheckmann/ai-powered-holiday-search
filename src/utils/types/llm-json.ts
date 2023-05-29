@@ -44,16 +44,23 @@ export const isLLMJson = (content: string) => {
   return false;
 };
 
+export const parseFilters = (content: LLMJson) => {
+  const filters: any = content.filters;
+  filters.departureDate = new Date(filters.departureDate);
+  filters.returnDate = new Date(filters.returnDate);
+  return filters;
+};
+
 export const errorResponse: LLMJson = {
-    chatResponse:
-      "Tut mir leid, etwas ist schief gelaufen. Bitte versuche es noch einmal oder leere den Chat.",
-    selectedDestination: "",
-    filters: {
-      departureAirport: "",
-      destinationAirport: "",
-      departureDate: "",
-      returnDate: "",
-      countAdults: 0,
-      countChildren: 0,
-    },
-  }
+  chatResponse:
+    "Tut mir leid, etwas ist schief gelaufen. Bitte versuche es noch einmal oder leere den Chat.",
+  selectedDestination: "",
+  filters: {
+    departureAirport: "",
+    destinationAirport: "",
+    departureDate: "",
+    returnDate: "",
+    countAdults: 0,
+    countChildren: 0,
+  },
+};

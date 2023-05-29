@@ -36,8 +36,8 @@ const addFirstMessagePrefix = (messages: Message[]) => {
 };
 
 const checkLLMCompletion = async (sessionId: string, completionContent: string) => {
-  const messages = [{ role: Role.User, content: JSON_CHECK_FAILED_ENGLISH + completionContent }]
   if (isLLMJson(completionContent)) return completionContent;
+  const messages = [{ role: Role.User, content: JSON_CHECK_FAILED_ENGLISH + completionContent }];
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: messages,
@@ -59,7 +59,7 @@ const addLLMCompletion = async (sessionId: string) => {
   let completionContent = response.data.choices[0]!.message!.content;
   completionContent = await checkLLMCompletion(sessionId, completionContent);
   console.log("addLLMCompletion done", completionContent);
-  sessions[sessionId]!.push({ role: Role.System, content: completionContent });
+  sessions[sessionId]!.push({ role: Role.Assistant, content: completionContent });
 };
 
 export const llmRouter = createTRPCRouter({

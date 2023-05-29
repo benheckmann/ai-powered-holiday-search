@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { Pages } from "./page-name-enum";
 import { Query } from "./query";
-import { Offer } from "@prisma/client";
+import { Hotel, Offer } from "@prisma/client";
 import { Message } from "./message";
 import { UseTRPCMutationResult, UseTRPCQueryResult } from "@trpc/react-query/shared";
 
@@ -11,8 +11,6 @@ export interface GlobalProps {
   setCurrentPage: Dispatch<SetStateAction<Pages>>;
   query: Query;
   setQuery: Dispatch<SetStateAction<Query>>;
-  cachedOffers: Offer[];
-  setCachedOffers: Dispatch<SetStateAction<Offer[]>>;
   // api
   chatHistory: UseTRPCQueryResult<any, any>;
   results: UseTRPCQueryResult<any, any>;

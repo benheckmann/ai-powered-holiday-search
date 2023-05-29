@@ -1,19 +1,21 @@
 import { LLMJson, LLMJsonExplanation } from "~/utils/types/llm-json";
 
 const currentDate = new Date().toISOString().slice(0, 10);
+const nextWeek = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
 const EXAMPLE_INPUT_GERMAN = "Kitesurf-Urlaub in Europa mit meiner Familie Anfang August";
 
 const JSON_DESCRIPTION: LLMJsonExplanation = {
-  chatResponse: "<string>: Wird dem Kunden als deine Chat-Antwort angezeigt. Hier berätst du ihn und erklärst deine Urlaubswahlen.",
-  selectedDestination: "<string>: Das Urlaubsziel, welches du in den Filtern spezifizierst.",
+  chatResponse:
+    "<string> (Wird dem Kunden als deine Chat-Antwort angezeigt. Hier berätst du ihn und erklärst deine Urlaubswahlen.)",
+  selectedDestination: "<string> (Das Urlaubsziel, welches du in den Filtern spezifizierst.)",
   filters: {
-    departureAirport: "<string>: default: MUC",
-    destinationAirport: "<string>: default: \"\"",
-    departureDate: `<string>: default: ${currentDate}`,
-    returnDate: "<string>: default: \"\"",
-    countAdults: "<int>: default: 2",
-    countChildren: "<int>: default: 0",
+    departureAirport: "<string> (Default: MUC)",
+    destinationAirport: '<string> (Default: "")',
+    departureDate: `<string> (Default: ${currentDate})`,
+    returnDate: `<string> (Default: ${nextWeek})`,
+    countAdults: "<int> (Default: 2)",
+    countChildren: "<int> (Default: 0)",
   },
 };
 

@@ -10,23 +10,24 @@ import { SearchPage } from "./search-page";
 import { GlobalProps } from "../utils/types/global-props";
 import { mockOffers } from "../../public/mock-data/mock-offers";
 import { api } from "~/utils/api";
-import { isLLMJson } from "~/utils/types/llm-json";
+import { isLLMJson, parseFilters } from "~/utils/types/llm-json";
+import { Hotel, Offer } from "@prisma/client";
 
 const Home: NextPage = () => {
-  const [currentPage, setCurrentPage] = useState(Pages.RESULTS);
+  const [currentPage, setCurrentPage] = useState(Pages.SEARCH);
   const [query, setQuery] = useState({
     filters: {
-      departureAirport: "",
-      destinationAirport: "",
-      departureDate: new Date(2023, 8, 1),
-      returnDate: new Date(2023, 8, 7),
-      countAdults: 0,
+      departureAirport: "MUC",
+      destinationAirport: "PMI",
+      departureDate: new Date(),
+      returnDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      countAdults: 2,
       countChildren: 0,
     },
     pageNumber: 0,
   });
-  const [cachedOffers, setCachedOffers] = useState(mockOffers);
-  const [sessionId, setSessionId] = useState<string>("UNINITIALIZED_SESSION_ID");
+  // const [cachedOffers, setCachedOffers] = useState<(Offer & { Hotel: Hotel })[]>([]);
+  const [sessionId, setSessionId] = useState("UNINITIALIZED_SESSION_ID");
 
   // initialize sessionId
   useEffect(() => {
@@ -42,7 +43,7 @@ const Home: NextPage = () => {
       if (data.length > 0) {
         const lastMessage = data[data.length - 1]!;
         if (lastMessage.role === Role.Assistant && isLLMJson(lastMessage.content)) {
-          const newFilters = JSON.parse(lastMessage.content).filters;
+          const newFilters = parseFilters(JSON.parse(lastMessage.content));
           setQuery({ filters: newFilters, pageNumber: 0 });
         }
       }
@@ -75,8 +76,6 @@ const Home: NextPage = () => {
       setCurrentPage,
       query,
       setQuery,
-      cachedOffers,
-      setCachedOffers,
       chatHistory,
       addUserMessage,
       clearChatHistory,

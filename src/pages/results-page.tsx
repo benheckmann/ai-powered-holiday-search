@@ -11,8 +11,8 @@ import { PageNavigationFooter } from "./components/page-navigation-footer";
 export const ResultsPage: NextPage<GlobalProps> = (props) => {
   return (
     <div>
-      <OfferGrid {...props} />
       <FilterBar {...props} />
+      <OfferGrid {...props} />
       <ChatWidget {...props} />
       <PageNavigationFooter {...props} />
     </div>

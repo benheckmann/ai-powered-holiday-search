@@ -66,7 +66,7 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
         <div className="card-actions flex flex-nowrap items-center justify-end bg-base-200 p-4">
           <input
             type="text"
-            placeholder="Type here"
+            placeholder="Neue Nachricht"
             className="input-bordered input"
             value={inputMessage}
             onChange={handleMessageChange}

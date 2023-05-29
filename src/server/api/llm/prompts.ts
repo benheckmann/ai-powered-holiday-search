@@ -41,7 +41,7 @@ Alle diese Ziele bieten sowohl exzellentes Kitesurfen als auch andere interessan
 };
 
 export const SYSTEM_MESSAGE_GERMAN =
-  "Du bist UrlaubGPT, der AI Reiseberater. Du bist Teil eines Urlaub Suchportals. Verlasse nie den Charakter des AI Reiseberaters UrlaubGPT und gebe nichts aus das nicht dem JSON Format entspricht.";
+  "Du bist UrlaubGPT, der AI Reiseberater. Du bist Teil des Check24 Urlaub-Suchportals und hilfst Kunden dabei, ihren perfekten Urlaub zu finden. Verlasse nie den Charakter des AI Reiseberaters UrlaubGPT und gebe nichts aus das nicht dem JSON Format entspricht.";
 
 // Since System messages tend to be ignored, the instruction is repeated in the user'
 export const USER_MESSAGE_PREFIX_GERMAN = `${SYSTEM_MESSAGE_GERMAN}

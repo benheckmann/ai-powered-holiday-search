@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { GlobalProps } from "../../utils/types/global-props";
 import DatePicker from "react-datepicker";
+import { MdOutlineFlightLand, MdOutlineFlightTakeoff, MdOutlineMan4 } from "react-icons/md";
+import { BsCalendar3 } from "react-icons/bs";
+import { FaChild } from "react-icons/fa";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -38,70 +41,66 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
   };
 
   return (
-    <div className="fixed top-0 w-full bg-primary">
-      <div className="container mx-auto">
-        <div className="flex justify-evenly p-5">
-          <div>
-            <label className="text-white block">Departure Airport</label>
-            <input
-              type="text"
-              value={departureAirportField}
-              onChange={(e) => setDepartureAirportField(e.target.value)}
-              className="w-full rounded px-3 py-2"
-              aria-label="Departure Airport"
-            />
-          </div>
-          <div>
-            <label className="text-white block">Destination Airport</label>
-            <input
-              type="text"
-              value={destinationAirportField}
-              onChange={(e) => setDestinationAirportField(e.target.value)}
-              className="w-full rounded px-3 py-2"
-              aria-label="Destination Airport"
-            />
-          </div>
-          <div>
-            <label className="text-white block">Dates</label>
-            <DatePicker
-              selectsRange={true}
-              startDate={dateRangeField[0]}
-              endDate={dateRangeField[1]}
-              onChange={([startDate, endDate]) => {
-                setDateRangeField([startDate!, endDate!]);
-              }}
-              isClearable={true}
-            />
-          </div>
-          <div>
-            <label className="text-white block">Adults</label>
-            <input
-              type="number"
-              value={countAdultsField}
-              onChange={(e) => setCountAdultsField(parseInt(e.target.value))}
-              className="w-full rounded px-3 py-2"
-              aria-label="Adults"
-            />
-          </div>
-          <div>
-            <label className="text-white block">Children</label>
-            <input
-              type="number"
-              value={countChildrenField}
-              onChange={(e) => setCountChildrenField(parseInt(e.target.value))}
-              className="w-full rounded px-3 py-2"
-              aria-label="Children"
-            />
-          </div>
-          <div>
-            <button
-              onClick={handleSubmitFields}
-              className="bg-white rounded px-3 py-2 font-bold text-base-100"
-              aria-label="Submit"
-            >
-              Submit
-            </button>
-          </div>
+    <div className="fixed top-12 z-10 w-full bg-secondary px-10 py-3">
+      <div className="flex justify-evenly items-center">
+        <div>
+          <MdOutlineFlightTakeoff />
+          <input
+            type="text"
+            placeholder="Abflughafen"
+            value={departureAirportField}
+            onChange={(e) => setDepartureAirportField(e.target.value)}
+            className="w-full rounded px-3 py-2"
+            aria-label="Departure Airport"
+          />
+        </div>
+        <div>
+          <MdOutlineFlightLand />
+          <input
+            type="text"
+            placeholder="Zielflughafen"
+            value={destinationAirportField}
+            onChange={(e) => setDestinationAirportField(e.target.value)}
+            className="w-full rounded px-3 py-2"
+            aria-label="Destination Airport"
+          />
+        </div>
+        <div>
+          <BsCalendar3 />
+          <DatePicker
+            selectsRange={true}
+            startDate={dateRangeField[0]}
+            endDate={dateRangeField[1]}
+            onChange={([startDate, endDate]) => {
+              setDateRangeField([startDate!, endDate!]);
+            }}
+            isClearable={true}
+          />
+        </div>
+        <div>
+          <MdOutlineMan4 />
+          <input
+            type="number"
+            value={countAdultsField}
+            onChange={(e) => setCountAdultsField(parseInt(e.target.value))}
+            className="w-full rounded px-3 py-2"
+            aria-label="Adults"
+          />
+        </div>
+        <div>
+          <FaChild />
+          <input
+            type="number"
+            value={countChildrenField}
+            onChange={(e) => setCountChildrenField(parseInt(e.target.value))}
+            className="w-full rounded px-3 py-2"
+            aria-label="Children"
+          />
+        </div>
+        <div>
+          <button onClick={handleSubmitFields} className="btn-primary btn text-base-100">
+            Submit
+          </button>
         </div>
       </div>
     </div>

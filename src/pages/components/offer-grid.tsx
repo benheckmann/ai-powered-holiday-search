@@ -44,7 +44,7 @@ export const OfferGrid: React.FC<GlobalProps> = (props) => {
                 />
               ) : (
                 <img
-                  src="/mock-data/mock-hotel-image.png"
+                  src={`/mock-hotel-images/mock-hotel-image-${(offers[index]?.hotelid ?? 0) % 10}.jpeg`}
                   className="h-56 w-full object-cover"
                   alt="Offer"
                 />

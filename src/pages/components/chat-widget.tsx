@@ -51,7 +51,7 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
 
   return (
     <div
-      className="dropdown dropdown-top dropdown-end dropdown-open fixed bottom-10 right-10"
+      className="dropdown dropdown-top dropdown-end fixed bottom-10 right-10 z-20"
       key={props.chatHistory.data ? props.chatHistory.data.length : 0}
     >
       <label tabIndex={0} className="btn-circle btn m-1">
@@ -59,7 +59,7 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
       </label>
       <div tabIndex={0} className="w-160 card dropdown-content bg-base-100 shadow-xl">
         <figure className="bg-primary p-6 text-2xl font-bold text-primary-content">Chat</figure>
-        <div className="card-body p-4">
+        <div className="card-body p-4 overflow-auto" style={{height: "300px"}} >
           {props.chatHistory.isFetched && props.chatHistory.data!.map(renderChatBubble)}
           {props.requestCompletion.isLoading && <progress className="progress w-56"></progress>}
         </div>

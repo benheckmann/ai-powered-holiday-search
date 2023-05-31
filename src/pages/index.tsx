@@ -14,11 +14,11 @@ import { DummyHeaderBar } from "./components/DummyHeaderBar";
 import { DummyFooter } from "./components/DummyFooter";
 
 const Home: NextPage = () => {
-  const [currentPage, setCurrentPage] = useState(Pages.RESULTS);
+  const [currentPage, setCurrentPage] = useState(Pages.SEARCH);
   const [query, setQuery] = useState({
     filters: {
       departureAirport: "MUC",
-      destinationAirport: "PMI",
+      destinationAirport: "",
       departureDate: new Date(),
       returnDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       countAdults: 2,

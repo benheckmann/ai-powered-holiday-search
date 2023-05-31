@@ -115,7 +115,7 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
         </div>
         <div>
           <button onClick={handleSubmitFields} className="btn-primary btn text-base-100">
-            Submit
+            Suche
           </button>
         </div>
       </div>

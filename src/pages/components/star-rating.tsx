@@ -1,6 +1,6 @@
 import React from "react";
 
-export const StarRating = ({ rating }) => {
+export const StarRating = ({ rating }: { rating: number }) => {
   rating = Math.min(Math.max(Math.round(rating), 0), 5);
   const stars = [];
 

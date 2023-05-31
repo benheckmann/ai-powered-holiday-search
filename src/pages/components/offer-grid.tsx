@@ -9,7 +9,9 @@ export const OfferGrid: React.FC<GlobalProps> = (props) => {
   const offers: (Offer & { Hotel: Hotel })[] = props.results.data ?? [];
   const isLoading = props.results.isLoading;
   const isFetched = props.results.isFetched;
-  const isNotMallorca = props.query.filters.destinationAirport !== "PMI";
+  const isNotMallorca =
+    props.query.filters.destinationAirport.length > 0 &&
+    props.query.filters.destinationAirport !== "PMI";
   const isEmpty = isFetched && offers.length === 0;
 
   if (isNotMallorca || isEmpty) {
@@ -33,7 +35,7 @@ export const OfferGrid: React.FC<GlobalProps> = (props) => {
     <div className="container mx-auto mt-28 px-4">
       <div className="grid gap-6 py-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {Array.from({ length: isLoading ? PAGE_SIZE : offers.length }).map((_, index) => (
-          <div className="card w-full bg-base-100 shadow-xl">
+          <div key={index} className="card w-full bg-base-100 shadow-xl">
             <figure>
               {isLoading ? (
                 <img

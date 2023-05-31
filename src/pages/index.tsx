@@ -1,19 +1,18 @@
-import { type NextPage } from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import { v4 } from "uuid";
 import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
 import { Pages } from "../utils/types/page-name-enum";
 import { useEffect, useState } from "react";
-import ResultsPage from "./results-page";
-import SearchPage from "./search-page";
-import { GlobalProps } from "../utils/types/global-props";
+import ResultsPage from "../components/results-page";
+import SearchPage from "../components/search-page";
+import type { GlobalProps } from "../utils/types/global-props";
 import { api } from "~/utils/api";
-import { isLLMJson, parseFilters } from "~/utils/types/llm-json";
-import DummyHeaderBar from "./components/DummyHeaderBar";
-import DummyFooter from "./components/DummyFooter";
+import { isLLMJson, parseFilters, LLMJson } from "~/utils/types/llm-json";
+import DummyHeaderBar from "../components/DummyHeaderBar";
+import DummyFooter from "../components/DummyFooter";
 
-/* eslint-disable */
 
 const Home: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(Pages.SEARCH);
@@ -33,41 +32,45 @@ const Home: NextPage = () => {
 
   // initialize sessionId
   useEffect(() => {
-    if (!localStorage.getItem("sessionId")) {
-      localStorage.setItem("sessionId", v4());
+    const storedSessionId = localStorage.getItem("sessionId");
+    if (!storedSessionId) {
+      const newSessionId = v4();
+      localStorage.setItem("sessionId", newSessionId);
+      setSessionId(newSessionId);
+    } else {
+      setSessionId(storedSessionId);
     }
-    setSessionId(localStorage.getItem("sessionId")!);
   }, []);
 
   // initialize api
   const chatHistory = api.llm.getChatHistory.useQuery(sessionId, {
     onSuccess: (data) => {
       if (data.length > 0) {
-        const lastMessage = data[data.length - 1]!;
-        if (lastMessage.role === Role.Assistant && isLLMJson(lastMessage.content)) {
-          const newFilters = parseFilters(JSON.parse(lastMessage.content));
+        const lastMessage = data[data.length - 1];
+        if (lastMessage && lastMessage.role === Role.Assistant && isLLMJson(lastMessage.content)) {
+          const newFilters = parseFilters(JSON.parse(lastMessage.content) as LLMJson);
           setQuery({ filters: newFilters, pageNumber: 0 });
         }
       }
     },
   });
   const requestCompletion = api.llm.requestCompletion.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       console.log("requestCompletion success", new Date().toLocaleTimeString());
-      chatHistory.refetch();
+      await chatHistory.refetch();
     },
   });
   const addUserMessage = api.llm.addUserMessage.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       console.log("addUserMessage success", new Date().toLocaleTimeString());
-      chatHistory.refetch();
-      requestCompletion.mutateAsync(sessionId);
+      await chatHistory.refetch();
+      await requestCompletion.mutateAsync(sessionId);
     },
   });
   const clearChatHistory = api.llm.clearChatHistory.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       console.log("clearChatHistory success", new Date().toLocaleTimeString());
-      chatHistory.refetch();
+      await chatHistory.refetch();
     },
   });
   const results = api.db.search.useQuery(query);

@@ -1,4 +1,4 @@
-/* eslint-disable */
+import type { Query } from "~/utils/types/query";
 
 export interface LLMJsonExplanation {
   chatResponse: string;
@@ -26,20 +26,20 @@ export interface LLMJson {
   };
 }
 
-const hasLLMJsonAttributes = (json: any) =>
+const hasLLMJsonAttributes = (json: Partial<LLMJson>): json is LLMJson =>
   "chatResponse" in json &&
   "selectedDestination" in json &&
   "filters" in json &&
-  "departureAirport" in json.filters &&
-  "destinationAirport" in json.filters &&
-  "departureDate" in json.filters &&
-  "returnDate" in json.filters &&
-  "countAdults" in json.filters &&
-  "countChildren" in json.filters;
+  "departureAirport" in (json.filters ?? {}) &&
+  "destinationAirport" in (json.filters ?? {}) &&
+  "departureDate" in (json.filters ?? {}) &&
+  "returnDate" in (json.filters ?? {}) &&
+  "countAdults" in (json.filters ?? {}) &&
+  "countChildren" in (json.filters ?? {});
 
 export const isLLMJson = (content: string) => {
   try {
-    const parsedJSON = JSON.parse(content);
+    const parsedJSON: Partial<LLMJson> = JSON.parse(content) as Partial<LLMJson>;
     if (hasLLMJsonAttributes(parsedJSON)) return true;
   } catch (err) {}
   console.log("isLLMJson FAIL", content, new Date().toLocaleTimeString());
@@ -47,10 +47,16 @@ export const isLLMJson = (content: string) => {
 };
 
 export const parseFilters = (content: LLMJson) => {
-  const filters: any = content.filters;
-  filters.departureDate = new Date(filters.departureDate);
-  filters.returnDate = new Date(filters.returnDate);
-  return filters;
+  const llmFilters: Partial<LLMJson["filters"]> = content.filters;
+  const queryFilters: Query["filters"] = {
+    departureAirport: (llmFilters.departureAirport ?? "").toUpperCase(),
+    destinationAirport: (llmFilters.destinationAirport ?? "").toUpperCase(),
+    departureDate: new Date(llmFilters.departureDate ?? "2023"),
+    returnDate: new Date(llmFilters.returnDate ?? "2023"),
+    countAdults: (llmFilters.countAdults ?? 0),
+    countChildren: (llmFilters.countChildren ?? 0),
+  };
+  return queryFilters;
 };
 
 export const errorResponse: LLMJson = {

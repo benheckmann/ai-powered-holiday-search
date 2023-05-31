@@ -1,5 +1,5 @@
 import React from "react";
-import { GlobalProps } from "../../utils/types/global-props";
+import { GlobalProps } from "../utils/types/global-props";
 
 const PageNavigationFooter: React.FC<GlobalProps> = (props) => {
   const pageSize = (props.results.data ?? []).length;

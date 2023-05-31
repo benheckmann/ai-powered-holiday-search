@@ -1,11 +1,10 @@
-import { ChangeEventHandler, useState } from "react";
+import type { ChangeEventHandler, FC } from "react";
+import { useState } from "react";
 
-import { Pages } from "../../utils/types/page-name-enum";
-import { GlobalProps } from "../../utils/types/global-props";
+import { Pages } from "../utils/types/page-name-enum";
+import type { GlobalProps } from "../utils/types/global-props";
 
-/* eslint-disable */
-
-const NLPSearchForm: React.FC<GlobalProps> = (props) => {
+const NLPSearchForm: FC<GlobalProps> = (props) => {
   const [userInput, setUserInput] = useState("");
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -18,13 +17,16 @@ const NLPSearchForm: React.FC<GlobalProps> = (props) => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (userInput.trim() !== "") {
-      props.addUserMessage.mutate({
-        sessionId: localStorage.getItem("sessionId")!,
-        messageContent: userInput,
-      });
-      props.setCurrentPage(Pages.RESULTS);
+      const storedSessionId = localStorage.getItem("sessionId") ?? "UNINITIALIZED_SESSION_ID";
+      if (storedSessionId) {
+        void props.addUserMessage.mutate({
+          sessionId: storedSessionId,
+          messageContent: userInput,
+        });
+        props.setCurrentPage(Pages.RESULTS);
+      }
     }
   };
 

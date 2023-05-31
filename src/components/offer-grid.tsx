@@ -1,5 +1,5 @@
 import { Hotel, Offer } from "@prisma/client";
-import { GlobalProps } from "../../utils/types/global-props";
+import { GlobalProps } from "../utils/types/global-props";
 import StarRating from "./star-rating";
 
 const PAGE_SIZE = 12;

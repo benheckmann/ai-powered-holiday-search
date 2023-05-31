@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
-import { Message } from "../../utils/types/message";
-import { GlobalProps } from "../../utils/types/global-props";
-import { LLMJson } from "~/utils/types/llm-json";
-
-/* eslint-disable */
+import type { Message } from "../utils/types/message";
+import type { GlobalProps } from "../utils/types/global-props";
+import type { LLMJson } from "~/utils/types/llm-json";
 
 const ChatWidget: React.FC<GlobalProps> = (props) => {
   const [inputMessage, setInputMessage] = useState("");
@@ -16,9 +14,10 @@ const ChatWidget: React.FC<GlobalProps> = (props) => {
   };
 
   const handleMessageSubmit = () => {
-    if (inputMessage.trim() !== "") {
+    const sessionId = localStorage.getItem("sessionId");
+    if (inputMessage.trim() !== "" && sessionId) {
       props.addUserMessage.mutate({
-        sessionId: localStorage.getItem("sessionId")!,
+        sessionId: sessionId,
         messageContent: inputMessage,
       });
       setInputMessage("");
@@ -26,7 +25,10 @@ const ChatWidget: React.FC<GlobalProps> = (props) => {
   };
 
   const handleClearHistory = () => {
-    props.clearChatHistory.mutate(localStorage.getItem("sessionId")!);
+    const sessionId = localStorage.getItem("sessionId");
+    if (sessionId) {
+      props.clearChatHistory.mutate(sessionId);
+    }
   };
 
   const handleEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -39,7 +41,7 @@ const ChatWidget: React.FC<GlobalProps> = (props) => {
     let text = message.content;
     if (message.role === Role.Assistant) {
       try {
-        const parsedJson: LLMJson = JSON.parse(message.content);
+        const parsedJson = JSON.parse(message.content) as LLMJson;
         text = parsedJson.chatResponse;
       } catch (e) {
         text =
@@ -65,7 +67,7 @@ const ChatWidget: React.FC<GlobalProps> = (props) => {
         <div className="w-160 card dropdown-content bg-base-100 shadow-xl">
           <figure className="bg-accent p-6 text-2xl font-bold text-base-100">Chat</figure>
           <div className="card-body overflow-auto p-4" style={{ height: "300px" }}>
-            {props.chatHistory.isFetched && props.chatHistory.data!.map(renderChatBubble)}
+            {props.chatHistory.isFetched && props.chatHistory.data && props.chatHistory.data.map(renderChatBubble)}
             {props.requestCompletion.isLoading && <progress className="progress w-56"></progress>}
           </div>
           <div className="card-actions flex flex-nowrap items-center justify-end bg-base-200 p-4">

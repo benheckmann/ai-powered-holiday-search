@@ -1,18 +1,16 @@
-import moment from "moment";
+import moment, { Moment } from "moment";
 import { useState } from "react";
 import { DateRangePicker, FocusedInputShape } from "react-dates";
-import { GlobalProps } from "../../utils/types/global-props";
+import type { GlobalProps } from "../utils/types/global-props";
 
 import "react-dates/initialize";
 
-/* eslint-disable */
-
 const DateRangePickerWrapper: React.FC<GlobalProps> = (props) => {
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(null);
-  const [startDate, setStartDate] = useState(moment(props.query.filters.departureDate));
-  const [endDate, setEndDate] = useState(moment(props.query.filters.returnDate));
+  const [startDate, setStartDate] = useState<Moment | null>(moment(props.query.filters.departureDate));
+  const [endDate, setEndDate] = useState<Moment | null>(moment(props.query.filters.returnDate));
 
-  const handleDatesChange = ({ startDate, endDate }: any) => {
+  const handleDatesChange = ({ startDate, endDate }: { startDate: Moment | null, endDate: Moment | null }) => {
     setStartDate(startDate);
     setEndDate(endDate);
   };
@@ -25,7 +23,7 @@ const DateRangePickerWrapper: React.FC<GlobalProps> = (props) => {
       endDateId="daterangepicker_end_date"
       onDatesChange={handleDatesChange}
       focusedInput={focusedInput}
-      onFocusChange={(focusedInput: any) => setFocusedInput(focusedInput)}
+      onFocusChange={(focusedInput: FocusedInputShape | null) => setFocusedInput(focusedInput)}
       hideKeyboardShortcutsPanel={true}
     />
   );

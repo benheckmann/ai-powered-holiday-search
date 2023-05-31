@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GlobalProps } from "../../utils/types/global-props";
+import { GlobalProps } from "../utils/types/global-props";
 import DatePicker from "react-datepicker";
 import { MdOutlineFlightLand, MdOutlineFlightTakeoff, MdOutlineMan4 } from "react-icons/md";
 import { BsCalendar3 } from "react-icons/bs";
@@ -8,7 +8,6 @@ import { FaChild } from "react-icons/fa";
 import "react-datepicker/dist/react-datepicker.css";
 import { Pages } from "~/utils/types/page-name-enum";
 
-/* eslint-disable */
 
 const FilterBar: React.FC<GlobalProps> = (props) => {
   const filters = props.query.filters;

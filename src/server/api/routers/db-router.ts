@@ -3,9 +3,16 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { ZodQuery, ZodOfferWithHotel } from "~/utils/types/db-query";
 import { prisma } from "~/server/db";
 
-/* eslint-disable */
-
 const PAGE_SIZE = 12;
+
+interface WhereClause {
+  outbounddepartureairport?: string;
+  outboundarrivalairport?: string;
+  outbounddeparturedatetime?: { gte: Date };
+  inboundarrivaldatetime?: { lte: Date };
+  countadults?: number;
+  countchildren?: number;
+}
 
 export const dbRouter = createTRPCRouter({
   search: publicProcedure
@@ -14,7 +21,7 @@ export const dbRouter = createTRPCRouter({
     .query(async ({ input }) => {
       const { filters, pageNumber } = input;
       console.log("search", input, new Date().toLocaleTimeString());
-      const where: any = {};
+      const where: WhereClause = {};
       if (filters.departureAirport) {
         where.outbounddepartureairport = filters.departureAirport;
       }
@@ -39,6 +46,9 @@ export const dbRouter = createTRPCRouter({
         where,
         include: {
           Hotel: true,
+        },
+        orderBy: {
+          price: "asc",
         },
       });
       console.log("search done", offers.length, new Date().toLocaleTimeString());

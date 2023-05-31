@@ -1,6 +1,6 @@
 export const DummyFooter: React.FC = () => {
     return (
-      <div className="w-full bg-primary text-white">
+      <div className="w-full bg-accent text-white">
         <div className="flex flex-wrap justify-center items-center py-4 px-10 text-center">
           <div className="w-full text-base-100">
             <div className="mb-2">

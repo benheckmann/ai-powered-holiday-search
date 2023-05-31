@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
 import { Message } from "../../utils/types/message";
@@ -6,6 +6,7 @@ import { GlobalProps } from "../../utils/types/global-props";
 
 export const ChatWidget: React.FC<GlobalProps> = (props) => {
   const [inputMessage, setInputMessage] = useState("");
+  const [isChatOpen, setIsChatOpen] = useState(true);
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
@@ -51,35 +52,37 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
 
   return (
     <div
-      className="dropdown dropdown-top dropdown-end fixed bottom-10 right-10 z-20"
+      className="dropdown-top dropdown-end dropdown dropdown-open fixed bottom-10 right-10 z-20"
       key={props.chatHistory.data ? props.chatHistory.data.length : 0}
     >
-      <label tabIndex={0} className="btn-circle btn m-1">
-        +
-      </label>
-      <div tabIndex={0} className="w-160 card dropdown-content bg-base-100 shadow-xl">
-        <figure className="bg-primary p-6 text-2xl font-bold text-primary-content">Chat</figure>
-        <div className="card-body p-4 overflow-auto" style={{height: "300px"}} >
-          {props.chatHistory.isFetched && props.chatHistory.data!.map(renderChatBubble)}
-          {props.requestCompletion.isLoading && <progress className="progress w-56"></progress>}
+      <button onClick={() => setIsChatOpen(!isChatOpen)} className="btn-circle btn btn-primary m-1">
+        {isChatOpen ? "-" : "+"}
+      </button>
+      {isChatOpen && (
+        <div className="w-160 dropdown-content card bg-base-100 shadow-xl">
+          <figure className="bg-accent p-6 text-2xl font-bold text-base-100">Chat</figure>
+          <div className="card-body overflow-auto p-4" style={{ height: "300px" }}>
+            {props.chatHistory.isFetched && props.chatHistory.data!.map(renderChatBubble)}
+            {props.requestCompletion.isLoading && <progress className="progress w-56"></progress>}
+          </div>
+          <div className="card-actions flex flex-nowrap items-center justify-end bg-base-200 p-4">
+            <input
+              type="text"
+              placeholder="Neue Nachricht"
+              className="input-bordered input"
+              value={inputMessage}
+              onChange={handleMessageChange}
+              onKeyDown={handleEnterKeyDown}
+            />
+            <button className="btn" onClick={handleMessageSubmit}>
+              Send
+            </button>
+            <button className="btn" onClick={handleClearHistory}>
+              Clear
+            </button>
+          </div>
         </div>
-        <div className="card-actions flex flex-nowrap items-center justify-end bg-base-200 p-4">
-          <input
-            type="text"
-            placeholder="Neue Nachricht"
-            className="input-bordered input"
-            value={inputMessage}
-            onChange={handleMessageChange}
-            onKeyDown={handleEnterKeyDown}
-          />
-          <button className="btn" onClick={handleMessageSubmit}>
-            Send
-          </button>
-          <button className="btn" onClick={handleClearHistory}>
-            Clear
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

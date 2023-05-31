@@ -19,9 +19,8 @@ export const OfferGrid: React.FC<GlobalProps> = (props) => {
       <div className="container mx-auto flex min-h-screen items-center justify-center px-4">
         {isNotMallorca ? (
           <h2 className="text-center">
-            Es scheint als hättest Sie sich für ein Reiseziel außerhalb von Mallorca (Flughafen PMI)
-            entschieden. <br />
-            Diese Suche ist möglich, aber unsere Daten beziehen sich nur auf Mallorca. <br />
+            Es scheint als hättest Sie sich für den Zielflughafen {props.query.filters.destinationAirport} entschieden. <br />
+            Diese Suche ist möglich, aber unsere Daten beziehen sich nur auf Mallorca (PMI). <br />
             Sie können das Ziel über die Filter oder per Chat verändern.
           </h2>
         ) : (

@@ -67,7 +67,9 @@ const ChatWidget: React.FC<GlobalProps> = (props) => {
         <div className="w-160 card dropdown-content bg-base-100 shadow-xl">
           <figure className="bg-accent p-6 text-2xl font-bold text-base-100">Chat</figure>
           <div className="card-body overflow-auto p-4" style={{ height: "300px" }}>
-            {props.chatHistory.isFetched && props.chatHistory.data && props.chatHistory.data.map(renderChatBubble)}
+            {props.chatHistory.isFetched &&
+              props.chatHistory.data &&
+              props.chatHistory.data.map(renderChatBubble)}
             {props.requestCompletion.isLoading && <progress className="progress w-56"></progress>}
           </div>
           <div className="card-actions flex flex-nowrap items-center justify-end bg-base-200 p-4">

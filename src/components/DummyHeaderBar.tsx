@@ -8,7 +8,7 @@ const DummyHeaderBar = ({
   setCurrentPage: (page: Pages) => void;
 }) => {
   const handleIconClick = () => {
-    alert("Ihre Daten werden in einer Sitzung gespeichert. Es ist kein Login erforderlich.");
+    window.open("https://github.com/benheckmann", "_blank");
   };
 
   return (
@@ -21,7 +21,7 @@ const DummyHeaderBar = ({
         </div>
         <div>
           <button onClick={handleIconClick}>
-            <img src="/person-icon.svg" alt="logo" className="h-6" />
+            <img src="/git-icon.png" alt="logo" className="h-6" />
           </button>
         </div>
       </div>

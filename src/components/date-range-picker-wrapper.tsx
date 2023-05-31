@@ -7,10 +7,18 @@ import "react-dates/initialize";
 
 const DateRangePickerWrapper: React.FC<GlobalProps> = (props) => {
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(null);
-  const [startDate, setStartDate] = useState<Moment | null>(moment(props.query.filters.departureDate));
+  const [startDate, setStartDate] = useState<Moment | null>(
+    moment(props.query.filters.departureDate)
+  );
   const [endDate, setEndDate] = useState<Moment | null>(moment(props.query.filters.returnDate));
 
-  const handleDatesChange = ({ startDate, endDate }: { startDate: Moment | null, endDate: Moment | null }) => {
+  const handleDatesChange = ({
+    startDate,
+    endDate,
+  }: {
+    startDate: Moment | null;
+    endDate: Moment | null;
+  }) => {
     setStartDate(startDate);
     setEndDate(endDate);
   };

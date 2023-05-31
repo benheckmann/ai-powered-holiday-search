@@ -53,8 +53,8 @@ export const parseFilters = (content: LLMJson) => {
     destinationAirport: (llmFilters.destinationAirport ?? "").toUpperCase(),
     departureDate: new Date(llmFilters.departureDate ?? "2023"),
     returnDate: new Date(llmFilters.returnDate ?? "2023"),
-    countAdults: (llmFilters.countAdults ?? 0),
-    countChildren: (llmFilters.countChildren ?? 0),
+    countAdults: llmFilters.countAdults ?? 0,
+    countChildren: llmFilters.countChildren ?? 0,
   };
   return queryFilters;
 };

@@ -11,7 +11,6 @@ import {
 import { ZodChatMessage } from "../../../utils/types/chat-history";
 import { errorResponse, isLLMJson } from "~/utils/types/llm-json";
 
-
 const sessions: Record<string, Message[]> = {};
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,

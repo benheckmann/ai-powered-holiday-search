@@ -8,7 +8,6 @@ import { FaChild } from "react-icons/fa";
 import "react-datepicker/dist/react-datepicker.css";
 import { Pages } from "~/utils/types/page-name-enum";
 
-
 const FilterBar: React.FC<GlobalProps> = (props) => {
   const filters = props.query.filters;
   const [departureAirportField, setDepartureAirportField] = useState(filters.departureAirport);

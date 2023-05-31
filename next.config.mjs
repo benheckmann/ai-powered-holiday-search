@@ -20,6 +20,6 @@ const config = {
   },
 
   // for docker deployment: reduces image size
-  output: "standalone"
+  output: "standalone",
 };
 export default config;

@@ -46,10 +46,7 @@ export const dbRouter = createTRPCRouter({
         where,
         include: {
           Hotel: true,
-        },
-        orderBy: {
-          price: "asc",
-        },
+        }
       });
       console.log("search done", offers.length, new Date().toLocaleTimeString());
       return offers;

@@ -1,16 +1,19 @@
-# Check24 GenDev Challenge Submission: UrlaubGPT - Your AI Assisted Holiday Planner
+# Check24 GenDev Challenge Submission: UrlaubGPT - Your AI Assisted Holiday Planner 🤖🌊
+
+## Live Demo
+Try it out at [check24-holiday-challenge.b-n.cc](https://check24-holiday-challenge.b-n.cc/).
 
 ## Introduction
 
 In this README, I will explain my concept, approach, the design choices I made and the optimizations I've implemented. I'll also discuss my ideas for future enhancements.
 
-### The Core Idea
+## The Core Idea
 
 With the current development of large language models (LLMs), the way we interact with digital systems will drastically evolve. With this in mind, I have designed an travel platform with an AI-travel-agent, UrlaubGPT, aiming to merge human-like interactions with the common controls of modern travel platform. The platform leverages ChatGPT to handle text input, making search input not only more flexible but also interactive.
 
 ## User Experience
 
-The user interface of UrlaubGPT is designed to be minimal yet powerful. The landing page of the platform presents a single search bar, which invites the user to input their holiday preferences in a conversational manner. The user might type in something like, "A kitesurf holiday in europe with my children," or "A trip to Mallorca with my wife anytime in September." The LLM then interprets this input, auto-adjusting the search filters on the portal, and responds to the user by providing additional destination suggestions, asking follow-up questions, and so on. The user is then directed to the results page, where they can either adjust the filters manually or chat with the AI for more tips and to refine their search.
+The user interface of UrlaubGPT is designed to be minimal yet powerful. The landing page of the platform presents a single search bar, which invites the user to input their holiday preferences in a conversational manner. The user might type in something like, "A kitesurf holiday in europe with my children," or "A trip to Mallorca with my wife anytime in September." The LLM then interprets this input, auto-adjusting the search filters on the portal, and responds to the user by providing additional destination suggestions, asking follow-up questions, and so on. The user is then directed to the results page, where they can either adjust the filters manually or chat with the AI for more tips and to refine their search. The chat window can be hidden to allow a full-screen view of the results.
 
 ## Design
 
@@ -30,8 +33,6 @@ UrlaubGPT is built with a robust and modern tech stack, aiming for speed of deve
   * **Prisma**: Prisma is a simple, typesafe ORM (Object-Relational Mapping) tool that simplifies database access and manipulation. Prisma enables us to interact with the MySQL database using TypeScript, promoting better code maintainability and reducing the risk of runtime errors.
   * **Tailwind CSS**: A utility-first CSS framework that allows me to create custom designs with ease. Tailwind CSS greatly simplifies the process of writing CSS, making it easier to maintain a consistent design throughout the application.
   * **tRPC**: An RPC framework built for TypeScript developers, tRPC allows me to build and consume fully typesafe APIs without having to deal with schemas or code generation. It integrates well with Next.js and TypeScript, enabling me to create reliable and efficient data communication paths within the application.
-
-* **Hosting: Azure App Services**: Azure App Services is a fully managed platform for building, deploying, and scaling web applications. It offers auto-scaling, integrated security, and support for multiple languages and frameworks, making it an ideal choice for hosting the application.
 
 ## Current Optimizations
 
@@ -64,14 +65,13 @@ git clone https://github.com/benheckmann/check24-gendev-challenge.git
 cp .env.example .env
 ```
 
-* Replace the placeholders in `.env` with your MySQL connection string and OpenAI API key.
+* Replace the placeholders in `.env` with your MySQL connection string and OpenAI API key. The expected database tables are specified in the file `schema.prisma` and follow the provided challenge data. Note: the current table names are newoffers and newhotels and can also be changed in `schema.prisma`.
 ```
 # Prisma
 DATABASE_URL=mysql://USER:PASSWORD@HOST:PORT/DATABASE
 # OpenAI
 OPENAI_API_KEY=key
 ```
-The expected database tables are specified in the file `schema.prisma` and follow the provided challenge data. Note: the current table names are newoffers and newhotels and can also be changed in `schema.prisma`.
 
 * Install dependencies & run the project:
 ```bash

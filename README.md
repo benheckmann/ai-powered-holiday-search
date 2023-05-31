@@ -8,7 +8,7 @@ Try it out at [check24-holiday-challenge.b-n.cc](https://check24-holiday-challen
 
 In this README, I will explain my concept, approach, the design choices I made and the optimizations I've implemented. I'll also discuss my ideas for future enhancements.
 
-## The Core Idea
+## Core Idea
 
 With the current development of large language models (LLMs), the way we interact with digital systems will drastically evolve. With this in mind, I have designed an travel platform with an AI-travel-agent, UrlaubGPT, aiming to merge human-like interactions with the common controls of modern travel platform. The platform leverages ChatGPT to handle text input, making search input not only more flexible but also interactive.
 

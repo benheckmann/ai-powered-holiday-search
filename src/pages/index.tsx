@@ -97,9 +97,9 @@ const Home: NextPage = () => {
         <meta name="description" content="Urlaubsangebote von CHECK24" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <DummyHeaderBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-        <main className="bg-white">{renderPage()}</main>
-        <DummyFooter />
+      <DummyHeaderBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <main className="bg-white">{renderPage()}</main>
+      <DummyFooter />
     </>
   );
 };

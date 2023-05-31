@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { ZodQuery, ZodOffer, ZodOfferWithHotel } from "~/utils/types/db-query";
+import { ZodQuery, ZodOfferWithHotel } from "~/utils/types/db-query";
 import { prisma } from "~/server/db";
 
 const PAGE_SIZE = 12;

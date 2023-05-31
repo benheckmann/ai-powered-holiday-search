@@ -52,14 +52,14 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
 
   return (
     <div
-      className="dropdown-top dropdown-end dropdown dropdown-open fixed bottom-10 right-10 z-20"
+      className="dropdown dropdown-top dropdown-end dropdown-open fixed bottom-10 right-10 z-20"
       key={props.chatHistory.data ? props.chatHistory.data.length : 0}
     >
-      <button onClick={() => setIsChatOpen(!isChatOpen)} className="btn-circle btn btn-primary m-1">
+      <button onClick={() => setIsChatOpen(!isChatOpen)} className="btn-primary btn-circle btn m-1">
         {isChatOpen ? "-" : "+"}
       </button>
       {isChatOpen && (
-        <div className="w-160 dropdown-content card bg-base-100 shadow-xl">
+        <div className="w-160 card dropdown-content bg-base-100 shadow-xl">
           <figure className="bg-accent p-6 text-2xl font-bold text-base-100">Chat</figure>
           <div className="card-body overflow-auto p-4" style={{ height: "300px" }}>
             {props.chatHistory.isFetched && props.chatHistory.data!.map(renderChatBubble)}

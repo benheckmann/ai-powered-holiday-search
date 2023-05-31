@@ -2,7 +2,7 @@ import React from "react";
 
 export const StarRating = ({ rating }: { rating: number }) => {
   rating = Math.min(Math.max(Math.round(rating), 0), 5);
-  const stars = [];
+  const stars: JSX.Element[] = [];
 
   for (let i = 1; i <= 5; i++) {
     const color = i <= rating ? "#FBBF24" : "#D1D5DB";

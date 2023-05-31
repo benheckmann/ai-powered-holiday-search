@@ -28,7 +28,7 @@ export const NLPSearchForm: React.FC<GlobalProps> = (props) => {
 
   return (
     <div className="rounded-lg bg-secondary p-4">
-      <h2 className="mb-4 mx-20  text-xl font-bold">Wie stellst du dir deine nächste Reise vor?</h2>
+      <h2 className="mx-20 mb-4  text-xl font-bold">Wie stellst du dir deine nächste Reise vor?</h2>
       <div className="flex items-center">
         <input
           type="text"

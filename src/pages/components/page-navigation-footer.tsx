@@ -1,7 +1,7 @@
 import React from "react";
 import { GlobalProps } from "../../utils/types/global-props";
 
-export const PageNavigationFooter: React.FC<GlobalProps> = (props) => {
+const PageNavigationFooter: React.FC<GlobalProps> = (props) => {
   const pageSize = (props.results.data ?? []).length;
   const currentPage = props.query.pageNumber; // 0-indexed
 
@@ -41,3 +41,5 @@ export const PageNavigationFooter: React.FC<GlobalProps> = (props) => {
     </div>
   );
 };
+
+export default PageNavigationFooter;

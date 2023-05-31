@@ -5,13 +5,13 @@ import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
 import { Pages } from "../utils/types/page-name-enum";
 import { useEffect, useState } from "react";
-import { ResultsPage } from "./results-page";
-import { SearchPage } from "./search-page";
+import ResultsPage from "./results-page";
+import SearchPage from "./search-page";
 import { GlobalProps } from "../utils/types/global-props";
 import { api } from "~/utils/api";
 import { isLLMJson, parseFilters } from "~/utils/types/llm-json";
-import { DummyHeaderBar } from "./components/DummyHeaderBar";
-import { DummyFooter } from "./components/DummyFooter";
+import DummyHeaderBar from "./components/DummyHeaderBar";
+import DummyFooter from "./components/DummyFooter";
 
 /* eslint-disable */
 

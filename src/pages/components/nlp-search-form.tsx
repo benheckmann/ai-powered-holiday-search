@@ -5,7 +5,7 @@ import { GlobalProps } from "../../utils/types/global-props";
 
 /* eslint-disable */
 
-export const NLPSearchForm: React.FC<GlobalProps> = (props) => {
+const NLPSearchForm: React.FC<GlobalProps> = (props) => {
   const [userInput, setUserInput] = useState("");
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -47,3 +47,5 @@ export const NLPSearchForm: React.FC<GlobalProps> = (props) => {
     </div>
   );
 };
+
+export default NLPSearchForm;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
 import { Message } from "../../utils/types/message";
@@ -7,7 +7,7 @@ import { LLMJson } from "~/utils/types/llm-json";
 
 /* eslint-disable */
 
-export const ChatWidget: React.FC<GlobalProps> = (props) => {
+const ChatWidget: React.FC<GlobalProps> = (props) => {
   const [inputMessage, setInputMessage] = useState("");
   const [isChatOpen, setIsChatOpen] = useState(true);
 
@@ -89,3 +89,5 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
     </div>
   );
 };
+
+export default ChatWidget;

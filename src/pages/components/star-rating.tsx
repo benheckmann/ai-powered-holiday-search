@@ -1,6 +1,6 @@
 import React from "react";
 
-export const StarRating = ({ rating }: { rating: number }) => {
+const StarRating = ({ rating }: { rating: number }) => {
   rating = Math.min(Math.max(Math.round(rating), 0), 5);
   const stars: JSX.Element[] = [];
 
@@ -26,3 +26,5 @@ export const StarRating = ({ rating }: { rating: number }) => {
 
   return <div className="flex items-center">{stars}</div>;
 };
+
+export default StarRating;

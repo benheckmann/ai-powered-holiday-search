@@ -10,7 +10,7 @@ import { Pages } from "~/utils/types/page-name-enum";
 
 /* eslint-disable */
 
-export const FilterBar: React.FC<GlobalProps> = (props) => {
+const FilterBar: React.FC<GlobalProps> = (props) => {
   const filters = props.query.filters;
   const [departureAirportField, setDepartureAirportField] = useState(filters.departureAirport);
   const [destinationAirportField, setDestinationAirportField] = useState(
@@ -124,3 +124,5 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
     </div>
   );
 };
+
+export default FilterBar;

@@ -1,6 +1,6 @@
 import { Pages } from "~/utils/types/page-name-enum";
 
-export const DummyHeaderBar = ({
+const DummyHeaderBar = ({
   currentPage,
   setCurrentPage,
 }: {
@@ -28,3 +28,5 @@ export const DummyHeaderBar = ({
     </div>
   );
 };
+
+export default DummyHeaderBar;

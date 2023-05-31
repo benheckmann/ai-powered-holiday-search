@@ -1,4 +1,4 @@
-export const DummyFooter: React.FC = () => {
+const DummyFooter: React.FC = () => {
   return (
     <div className="text-white w-full bg-accent">
       <div className="flex flex-wrap items-center justify-center px-10 py-4 text-center">
@@ -31,3 +31,5 @@ export const DummyFooter: React.FC = () => {
     </div>
   );
 };
+
+export default DummyFooter;

@@ -7,7 +7,7 @@ import "react-dates/initialize";
 
 /* eslint-disable */
 
-export const DateRangePickerWrapper: React.FC<GlobalProps> = (props) => {
+const DateRangePickerWrapper: React.FC<GlobalProps> = (props) => {
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(null);
   const [startDate, setStartDate] = useState(moment(props.query.filters.departureDate));
   const [endDate, setEndDate] = useState(moment(props.query.filters.returnDate));
@@ -30,3 +30,5 @@ export const DateRangePickerWrapper: React.FC<GlobalProps> = (props) => {
     />
   );
 };
+
+export default DateRangePickerWrapper;

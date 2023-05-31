@@ -8,7 +8,7 @@ const DummyHeaderBar = ({
   setCurrentPage: (page: Pages) => void;
 }) => {
   const handleIconClick = () => {
-    window.open("https://github.com/benheckmann", "_blank");
+    window.open("https://github.com/benheckmann/check24-gendev-challenge", "_blank");
   };
 
   return (

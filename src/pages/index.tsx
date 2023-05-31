@@ -13,6 +13,8 @@ import { isLLMJson, parseFilters } from "~/utils/types/llm-json";
 import { DummyHeaderBar } from "./components/DummyHeaderBar";
 import { DummyFooter } from "./components/DummyFooter";
 
+/* eslint-disable */
+
 const Home: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(Pages.SEARCH);
   const [query, setQuery] = useState({

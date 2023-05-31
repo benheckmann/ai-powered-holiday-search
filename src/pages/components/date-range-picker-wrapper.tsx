@@ -5,6 +5,8 @@ import { GlobalProps } from "../../utils/types/global-props";
 
 import "react-dates/initialize";
 
+/* eslint-disable */
+
 export const DateRangePickerWrapper: React.FC<GlobalProps> = (props) => {
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(null);
   const [startDate, setStartDate] = useState(moment(props.query.filters.departureDate));

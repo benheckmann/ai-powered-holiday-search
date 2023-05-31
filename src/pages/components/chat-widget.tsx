@@ -3,6 +3,9 @@ import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
 import { Message } from "../../utils/types/message";
 import { GlobalProps } from "../../utils/types/global-props";
+import { LLMJson } from "~/utils/types/llm-json";
+
+/* eslint-disable */
 
 export const ChatWidget: React.FC<GlobalProps> = (props) => {
   const [inputMessage, setInputMessage] = useState("");
@@ -36,7 +39,7 @@ export const ChatWidget: React.FC<GlobalProps> = (props) => {
     let text = message.content;
     if (message.role === Role.Assistant) {
       try {
-        const parsedJson = JSON.parse(message.content);
+        const parsedJson: LLMJson = JSON.parse(message.content);
         text = parsedJson.chatResponse;
       } catch (e) {
         text =

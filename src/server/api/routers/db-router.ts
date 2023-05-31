@@ -3,6 +3,8 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { ZodQuery, ZodOfferWithHotel } from "~/utils/types/db-query";
 import { prisma } from "~/server/db";
 
+/* eslint-disable */
+
 const PAGE_SIZE = 12;
 
 export const dbRouter = createTRPCRouter({

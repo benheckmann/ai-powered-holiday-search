@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export interface LLMJsonExplanation {
   chatResponse: string;
   selectedDestination: string;

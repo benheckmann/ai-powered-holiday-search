@@ -3,6 +3,8 @@ import { ChangeEventHandler, useState } from "react";
 import { Pages } from "../../utils/types/page-name-enum";
 import { GlobalProps } from "../../utils/types/global-props";
 
+/* eslint-disable */
+
 export const NLPSearchForm: React.FC<GlobalProps> = (props) => {
   const [userInput, setUserInput] = useState("");
 

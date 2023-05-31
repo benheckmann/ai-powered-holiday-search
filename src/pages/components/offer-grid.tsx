@@ -6,7 +6,8 @@ const PAGE_SIZE = 12;
 const PLACEHOLDER_IMG = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23d1d5db' /%3E%3C/svg%3E`;
 
 export const OfferGrid: React.FC<GlobalProps> = (props) => {
-  const offers: (Offer & { Hotel: Hotel })[] = props.results.data ?? [];
+  const offers: (Offer & { Hotel: Hotel })[] =
+    (props.results.data as (Offer & { Hotel: Hotel })[]) ?? []; // casting
   const isLoading = props.results.isLoading;
   const isFetched = props.results.isFetched;
   const isNotMallorca =

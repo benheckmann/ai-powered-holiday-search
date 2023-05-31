@@ -30,7 +30,6 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           yarn install
-          yarn run dev
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2

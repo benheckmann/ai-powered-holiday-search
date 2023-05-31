@@ -10,7 +10,7 @@ import { SearchPage } from "./search-page";
 import { GlobalProps } from "../utils/types/global-props";
 import { api } from "~/utils/api";
 import { isLLMJson, parseFilters } from "~/utils/types/llm-json";
-import { DummyHeaderBar } from "./components/HeaderBar";
+import { DummyHeaderBar } from "./components/DummyHeaderBar";
 import { DummyFooter } from "./components/DummyFooter";
 
 const Home: NextPage = () => {
@@ -97,7 +97,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Urlaubsangebote von CHECK24" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <DummyHeaderBar currentPage={currentPage} />
+        <DummyHeaderBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
         <main className="bg-white">{renderPage()}</main>
         <DummyFooter />
     </>

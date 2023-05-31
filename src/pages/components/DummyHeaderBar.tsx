@@ -1,6 +1,12 @@
 import { Pages } from "~/utils/types/page-name-enum";
 
-export const DummyHeaderBar = ({ currentPage }: { currentPage: Pages }) => {
+export const DummyHeaderBar = ({
+  currentPage,
+  setCurrentPage,
+}: {
+  currentPage: Pages;
+  setCurrentPage: (page: Pages) => void;
+}) => {
   const handleIconClick = () => {
     alert("Ihre Daten werden in einer Sitzung gespeichert. Es ist kein Login erforderlich.");
   };
@@ -9,7 +15,9 @@ export const DummyHeaderBar = ({ currentPage }: { currentPage: Pages }) => {
     <div className={"fixed top-0 z-10 h-12 w-full bg-primary"}>
       <div className="flex justify-between px-10 py-3">
         <div>
-          <img src="/logo.svg" alt="logo" className="h-6" />
+          <a onClick={() => setCurrentPage(Pages.SEARCH)}>
+            <img src="/logo.svg" alt="logo" className="h-6" />
+          </a>
         </div>
         <div>
           <button onClick={handleIconClick}>

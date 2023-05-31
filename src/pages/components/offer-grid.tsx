@@ -1,6 +1,5 @@
 import { Hotel, Offer } from "@prisma/client";
 import { GlobalProps } from "../../utils/types/global-props";
-import { OfferCard } from "./offer-card";
 
 export const OfferGrid: React.FC<GlobalProps> = (props) => {
   const offers: (Offer & { Hotel: Hotel })[] = props.results.data ?? [];

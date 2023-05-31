@@ -6,6 +6,7 @@ import { BsCalendar3 } from "react-icons/bs";
 import { FaChild } from "react-icons/fa";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { Pages } from "~/utils/types/page-name-enum";
 
 export const FilterBar: React.FC<GlobalProps> = (props) => {
   const filters = props.query.filters;
@@ -40,33 +41,41 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
     });
   };
 
+  const handleGoBack = () => {
+    props.setCurrentPage(Pages.SEARCH);
+  };
+
   return (
     <div className="fixed top-12 z-10 w-full bg-secondary px-10 py-3">
-      <div className="flex justify-evenly items-center">
+      <div className="flex items-center justify-between">
         <div>
-          <MdOutlineFlightTakeoff />
-          <input
-            type="text"
-            placeholder="Abflughafen"
-            value={departureAirportField}
-            onChange={(e) => setDepartureAirportField(e.target.value)}
-            className="w-full rounded px-3 py-2"
-            aria-label="Departure Airport"
-          />
+          <button onClick={handleGoBack} className="btn-outline btn-primary btn">
+            {"<"}
+          </button>
         </div>
-        <div>
-          <MdOutlineFlightLand />
+        <div className="flex-grow"></div>
+        <MdOutlineFlightTakeoff size={24} className="mx-2" />
+        <input
+          type="text"
+          placeholder="Abflughafen"
+          value={departureAirportField}
+          onChange={(e) => setDepartureAirportField(e.target.value)}
+          className="mr-4 w-20 rounded px-3 py-2"
+          aria-label="Departure Airport"
+        />
+        <div className="flex items-center">
+          <MdOutlineFlightLand size={24} className="mx-2" />
           <input
             type="text"
             placeholder="Zielflughafen"
             value={destinationAirportField}
             onChange={(e) => setDestinationAirportField(e.target.value)}
-            className="w-full rounded px-3 py-2"
+            className="mr-4 w-20 rounded px-3 py-2"
             aria-label="Destination Airport"
           />
         </div>
-        <div>
-          <BsCalendar3 />
+        <div className="flex items-center">
+          <BsCalendar3 size={24} className="mx-2" />
           <DatePicker
             selectsRange={true}
             startDate={dateRangeField[0]}
@@ -75,25 +84,32 @@ export const FilterBar: React.FC<GlobalProps> = (props) => {
               setDateRangeField([startDate!, endDate!]);
             }}
             isClearable={true}
+            className="w-56 rounded px-3 py-2"
           />
         </div>
-        <div>
-          <MdOutlineMan4 />
+        <div className="flex items-center">
+          <MdOutlineMan4 size={24} className="mx-2" />
           <input
             type="number"
             value={countAdultsField}
-            onChange={(e) => setCountAdultsField(parseInt(e.target.value))}
-            className="w-full rounded px-3 py-2"
+            onChange={(e) => {
+              const value = parseInt(e.target.value);
+              setCountAdultsField(value < 0 ? 0 : value);
+            }}
+            className="mr-4 w-14 rounded px-3 py-2"
             aria-label="Adults"
           />
         </div>
-        <div>
-          <FaChild />
+        <div className="flex items-center">
+          <FaChild size={16} className="mx-2" />
           <input
             type="number"
             value={countChildrenField}
-            onChange={(e) => setCountChildrenField(parseInt(e.target.value))}
-            className="w-full rounded px-3 py-2"
+            onChange={(e) => {
+              const value = parseInt(e.target.value);
+              setCountChildrenField(value < 0 ? 0 : value);
+            }}
+            className="mr-4 w-14 rounded px-3 py-2"
             aria-label="Children"
           />
         </div>

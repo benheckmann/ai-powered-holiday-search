@@ -18,5 +18,8 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
+  // for docker deployment: reduces image size
+  output: "standalone"
 };
 export default config;

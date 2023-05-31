@@ -79,6 +79,12 @@ yarn install
 yarn dev
 ```
 
+* You can alternatively build & run the project's docker image:
+```
+docker build -t ct3a-docker --build-arg NEXT_PUBLIC_CLIENTVAR=clientvar .
+docker run -p 3000:3000 -e DATABASE_URL="database_url_goes_here" -e OPENAI_API_KEY="key_goes_here" ct3a-docker
+```
+
 ## Conclusion
 
 I believe that my solution for the Check24 GenDev Holiday Challenge is not only a robust and efficient holiday comparison service but also a small step towards the future of human-computer interaction in the travel industry. It offers an immersive user experience, combines powerful technology with a sleek design, and most importantly, brings us closer to the day when planning a holiday is as simple as having a conversation. I'm proud of what I've built and excited about the skills I've learned along the way. I hope you enjoy using UrlaubGPT as much as I enjoyed building it!

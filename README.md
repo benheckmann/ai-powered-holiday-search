@@ -7,7 +7,7 @@ Try it out at [check24-holiday-challenge.b-n.cc](https://check24-holiday-challen
 ## Screen Recording
 
 ![Screen Recording GIF](./demo-screen-recording-r-15.gif)
-The screen recording as HD vido is available on [Google Drive](https://drive.google.com/file/d/1br9AGpft9UW734O5g5CveO9cCHDOaFXi/view?usp=sharing)
+The screen recording as HD vido is available on [Google Drive](https://drive.google.com/file/d/1br9AGpft9UW734O5g5CveO9cCHDOaFXi/view?usp=sharing).
 
 
 ## Introduction
@@ -47,18 +47,18 @@ Several optimizations have been implemented to enhance the system's performance 
 
 - Fallback mechanism for wrong LLM outputs: JSON responses are parsed and checked against the expected schema. In case of a mismatch, the response is sent back to the LLM with the required schema. If the LLM fails to generate a response that adheres to the schema again, a default error message is displayed to the user.
 - Database Indexing: Optimized database indexing ensures quick data retrieval, contributing to the application's overall responsiveness.
-- Session-based chat: User chat history is stored in a session, maintaining chat persistence across page refreshes without requiring user accounts.
+- Session-based chat: User chat history is stored in a session (with the session id being stored in the browsers `localStorage`), maintaining chat persistence across page refreshes without requiring user accounts.
 - Split result pages: To optimize data loading, the results are divided across multiple pages, allowing efficient retrieval and display of database results.
 
 ## Future Optimizations and Improvements
 
 While the current system performs quite well, I have identified a number of potential improvements and optimizations for future development:
 
-- Migrating to a fine-tuned version of an open-source LLM (such as Facebook's LLaMA) hosted with a German cloud provider. This would not only reduce costs but also improve data privacy in compliance with GDPR regulations.
-- Implementing a websocket connection between the server and client, enabling real-time streaming of LLM responses (i.e. the answer appears word by word) and enhancing the user's sense of interaction. The user would also get to start reading the response right away and would not experience any waiting time (assuming that the LLM would output the words faster than the user reads)
-- Integrating the Google Maps API: This could allow more advanced, location-based queries such as "beach holidays within a 500 km radius".
-- Adding airport code mappings: Implementing a mapping system between city names and IATA codes to enable additional validity checks and enhance search accuracy
 - Introducing sorting options: Allowing users to sort search results based on their preferences would significantly improve the platform's usability.
+- Migrating to a fine-tuned version of an open-source LLM (such as Facebook's LLaMA) hosted with a German cloud provider. This would not only reduce costs but also improve data privacy in compliance with GDPR regulations.
+- Implementing a websocket connection between the server and client, enabling real-time streaming of LLM responses (i.e. the answer appears word by word) and enhancing the user's sense of interaction. The user would get to start reading the response right away and would not experience any waiting time (assuming that the LLM would output the words faster than the user reads).
+- Integrating the Google Maps API: This could allow more advanced, location-based queries such as "beach holidays within a 500 km radius".
+- Adding airport code mappings: Implementing a mapping system between city names and IATA codes to enable additional validity checks and enhance search accuracy.
 
 ## How to Run the Project Locally
 
@@ -103,4 +103,6 @@ Upload two tables into your MySQL database, one for the hotels, and one for the 
 
 ## Conclusion
 
-I believe that my solution for the Check24 GenDev Holiday Challenge is not only a robust and efficient holiday comparison service but also a small step towards the future of human-computer interaction in the travel industry. It offers an immersive user experience, combines powerful technology with a sleek design, and most importantly, brings us closer to the day when planning a holiday is as simple as having a conversation. I'm proud of what I've built and excited about the skills I've learned along the way. I hope you enjoy using UrlaubGPT as much as I enjoyed building it!
+UrlaubGPT is an exploration of the AI's potential in the travel industry, demonstrating how language models can reinvigorate user interaction. It's a prototype that highlights a future where planning a holiday feels as simple as having a conversation. Though it may not fulfill all challenge requirements, it offers insights in the implementation and challenges and prompts us to consider AI as a significant component in the evolution of travel platforms.
+
+I'm proud of what I've built and excited about the skills I've learned along the way. I hope you enjoy using UrlaubGPT as much as I enjoyed building it!

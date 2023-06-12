@@ -37,15 +37,6 @@ const ChatWidget: React.FC<GlobalProps> = (props) => {
     }
   };
 
-  // make sure not to display the chat if there is no chat history
-  useEffect(() => {
-    if (props.chatHistory.data && props.chatHistory.data.length === 0) {
-      setIsChatOpen(false);
-    } else {
-      setIsChatOpen(true);
-    }
-  }, [props.currentPage]);
-
   const renderChatBubble = (message: Message, index: number) => {
     let text = message.content;
     if (message.role === Role.Assistant) {

@@ -94,7 +94,7 @@ You can alternatively build & run the project's docker image (instead of step 2.
 
 ```
 docker build -t ct3a-docker --build-arg NEXT_PUBLIC_CLIENTVAR=clientvar .
-docker run -e DATABASE_URL="database_url_goes_here" -e OPENAI_API_KEY="key_goes_here" ct3a-docker
+docker run -p 3000:3000 -e DATABASE_URL="database_url_goes_here" -e OPENAI_API_KEY="key_goes_here" ct3a-docker
 ```
 
 4. Setup Database

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { ZodQuery, ZodOfferWithHotel } from "~/utils/types/db-query";
 import { prisma } from "~/server/db";
+import { Hotel, Offer } from "@prisma/client";
 
 const PAGE_SIZE = 24;
 
@@ -20,35 +21,36 @@ export const dbRouter = createTRPCRouter({
     .output(z.array(ZodOfferWithHotel))
     .query(async ({ input }) => {
       const { filters, pageNumber } = input;
-      console.log("search", input, new Date().toLocaleTimeString());
-      const where: WhereClause = {};
-      if (filters.departureAirport) {
-        where.outbounddepartureairport = filters.departureAirport;
-      }
-      if (filters.destinationAirport) {
-        where.outboundarrivalairport = filters.destinationAirport;
-      }
-      if (filters.departureDate) {
-        where.outbounddeparturedatetime = { gte: filters.departureDate };
-      }
-      if (filters.returnDate) {
-        where.inboundarrivaldatetime = { lte: filters.returnDate };
-      }
-      if (filters.countAdults) {
-        where.countadults = filters.countAdults;
-      }
-      if (filters.countChildren) {
-        where.countchildren = filters.countChildren;
-      }
-      const offers = await prisma.offer.findMany({
-        take: PAGE_SIZE,
-        skip: PAGE_SIZE * pageNumber,
-        where,
-        include: {
-          Hotel: true,
+      /**
+       * Note: I needed to use a raw query here to work around a prisma bug.
+       * Of course, this is no production code as it might be volnurable to sql injection attacks.
+       */
+      const sqlClause = `SELECT * 
+      FROM newoffers 
+      WHERE outbounddeparturedatetime >= "${filters.departureDate.toISOString()}" 
+      AND inboundarrivaldatetime <= "${filters.returnDate.toISOString()}" 
+      AND outbounddepartureairport = "${filters.departureAirport}" 
+      AND outboundarrivalairport = "${filters.destinationAirport}" 
+      AND countadults = ${filters.countAdults} 
+      AND countchildren = ${filters.countChildren} 
+      LIMIT ${PAGE_SIZE} OFFSET ${PAGE_SIZE * pageNumber}`;
+      console.log("search", sqlClause, new Date().toLocaleTimeString());
+      const offers = await prisma.$queryRawUnsafe<Offer[]>(sqlClause);
+      // workaround
+      const hotelIds = [...new Set(offers.map((offer) => offer.hotelid))];
+      const hotels = await prisma.hotel.findMany({
+        where: {
+          hotelid: {
+            in: hotelIds,
+          },
         },
       });
+      const hotelsById = Object.fromEntries(hotels.map((hotel) => [hotel.hotelid, hotel]));
+      const offersWithHotels = offers.map((offer) => ({
+        ...offer,
+        Hotel: hotelsById[offer.hotelid]!,
+      }));
       console.log("search done", offers.length, new Date().toLocaleTimeString());
-      return offers;
+      return offersWithHotels;
     }),
 });

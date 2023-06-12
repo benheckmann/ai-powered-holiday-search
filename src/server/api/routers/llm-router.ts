@@ -55,6 +55,7 @@ const addLLMCompletion = async (sessionId: string) => {
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: messages,
+    temperature: 0,
   });
   let completionContent = response.data.choices[0]!.message!.content;
   completionContent = await checkLLMCompletion(sessionId, completionContent);

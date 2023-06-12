@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChatCompletionRequestMessageRoleEnum as Role } from "openai";
 
 import type { Message } from "../utils/types/message";
@@ -36,6 +36,13 @@ const ChatWidget: React.FC<GlobalProps> = (props) => {
       handleMessageSubmit();
     }
   };
+
+  // make sure not to display the chat if there is no chat history
+  useEffect(() => {
+    if (props.chatHistory.data && props.chatHistory.data.length === 0) {
+      setIsChatOpen(false);
+    }
+  }, [props.chatHistory.data]);
 
   const renderChatBubble = (message: Message, index: number) => {
     let text = message.content;

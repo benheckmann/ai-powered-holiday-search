@@ -18,7 +18,7 @@ const Home: NextPage = () => {
   const [query, setQuery] = useState({
     filters: {
       departureAirport: "MUC",
-      destinationAirport: "",
+      destinationAirport: "PMI",
       departureDate: new Date(),
       returnDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       countAdults: 2,

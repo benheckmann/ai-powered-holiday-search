@@ -54,15 +54,17 @@ const FilterBar: React.FC<GlobalProps> = (props) => {
           </button>
         </div>
         <div className="flex-grow"></div>
-        <MdOutlineFlightTakeoff size={24} className="mx-2" />
-        <input
-          type="text"
-          placeholder="Abflughafen"
-          value={departureAirportField}
-          onChange={(e) => setDepartureAirportField(e.target.value)}
-          className="mr-4 w-20 rounded px-3 py-2"
-          aria-label="Departure Airport"
-        />
+        <div className="flex items-center">
+          <MdOutlineFlightTakeoff size={24} className="mx-2" />
+          <input
+            type="text"
+            placeholder="Abflughafen"
+            value={departureAirportField}
+            onChange={(e) => setDepartureAirportField(e.target.value)}
+            className="mr-4 w-20 rounded px-3 py-2"
+            aria-label="Departure Airport"
+          />
+        </div>
         <div className="flex items-center">
           <MdOutlineFlightLand size={24} className="mx-2" />
           <input

@@ -99,6 +99,41 @@ docker run -p 3000:3000 -e DATABASE_URL="database_url_goes_here" -e OPENAI_API_K
 4. Setup Database
 
 Upload two tables into your MySQL database, one for the hotels, and one for the offers. The expected table names, column names and types are specified in the file `schema.prisma` (and follow the provided challenge data). Upload the two tables to match this schema and optionally change the table names in this file as well by modifying `@@map("your_custom_table_name")`.
+For reference, this is what you should get in the MySQL command line:
+```mysql
+mysql> show columns from newoffers;
++---------------------------+--------------+------+-----+---------+----------------+
+| Field                     | Type         | Null | Key | Default | Extra          |
++---------------------------+--------------+------+-----+---------+----------------+
+| offerid                   | int(11)      | NO   | PRI | NULL    | auto_increment |
+| hotelid                   | int(11)      | NO   | MUL | NULL    |                |
+| outbounddeparturedatetime | datetime(3)  | NO   | MUL | NULL    |                |
+| inbounddeparturedatetime  | datetime(3)  | NO   |     | NULL    |                |
+| countadults               | int(11)      | NO   | MUL | NULL    |                |
+| countchildren             | int(11)      | NO   | MUL | NULL    |                |
+| price                     | float        | NO   | MUL | NULL    |                |
+| inbounddepartureairport   | varchar(191) | NO   |     | NULL    |                |
+| outboundarrivalairport    | varchar(191) | NO   | MUL | NULL    |                |
+| inboundarrivaldatetime    | datetime(3)  | NO   | MUL | NULL    |                |
+| outbounddepartureairport  | varchar(191) | NO   | MUL | NULL    |                |
+| inboundarrivalairport     | varchar(191) | NO   | MUL | NULL    |                |
+| outboundarrivaldatetime   | datetime(3)  | NO   |     | NULL    |                |
+| mealtype                  | varchar(191) | NO   |     | NULL    |                |
+| oceanview                 | varchar(191) | NO   |     | NULL    |                |
+| roomtype                  | varchar(191) | NO   |     | NULL    |                |
++---------------------------+--------------+------+-----+---------+----------------+
+16 rows in set (0.03 sec)
+
+mysql> show columns from newhotels;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| hotelid    | int(11)      | NO   | PRI | NULL    |       |
+| hotelname  | varchar(191) | NO   |     | NULL    |       |
+| hotelstars | int(11)      | NO   | MUL | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+3 rows in set (0.12 sec)
+```
 
 ## Conclusion
 

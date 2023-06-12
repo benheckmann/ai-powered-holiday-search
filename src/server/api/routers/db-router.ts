@@ -25,10 +25,18 @@ export const dbRouter = createTRPCRouter({
        * Note: I needed to use a raw query here to work around a prisma bug.
        * Of course, this is no production code as it might be volnurable to sql injection attacks.
        */
-      const depDateStart = new Date(filters.departureDate.setHours(0, 0, 0, 0)).toISOString();
-      const depDateEnd = new Date(filters.departureDate.setHours(23, 59, 59, 999)).toISOString();
-      const retDateStart = new Date(filters.returnDate.setHours(0, 0, 0, 0)).toISOString();
-      const retDateEnd = new Date(filters.returnDate.setHours(23, 59, 59, 999)).toISOString();
+      const depDate = new Date(filters.departureDate);
+      depDate.setUTCDate(depDate.getUTCDate() + 1);
+      depDate.setUTCHours(0, 0, 0, 0);
+      const depDateStart = depDate.toISOString();
+      depDate.setUTCHours(23, 59, 59, 999);
+      const depDateEnd = depDate.toISOString();
+      const retDate = new Date(filters.returnDate);
+      retDate.setUTCDate(retDate.getUTCDate() + 1);
+      retDate.setUTCHours(0, 0, 0, 0);
+      const retDateStart = retDate.toISOString();
+      retDate.setUTCHours(23, 59, 59, 999);
+      const retDateEnd = retDate.toISOString();
       // the ordering of the query matches the composite index which is based on the cardinality of the column value sets
       const sqlClause = `
       SELECT * 

@@ -2,13 +2,12 @@
 
 ## Live Demo
 
-Try it out at [check24-holiday-challenge.b-n.cc](https://check24-holiday-challenge.b-n.cc/).
+Try it out at [check24-holiday-challenge.b-n.cc](https://check24-holiday-challenge.b-n.cc/)! (Alternative [link](https://check24-gendev-challenge-5wy2zebdx-benheckmann.vercel.app))
 
 ## Screen Recording
 
 ![Screen Recording GIF](./demo-screen-recording-r-15.gif)
 The screen recording as HD vido is available on [Google Drive](https://drive.google.com/file/d/1br9AGpft9UW734O5g5CveO9cCHDOaFXi/view?usp=sharing).
-
 
 ## Introduction
 

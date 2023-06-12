@@ -17,7 +17,8 @@ const PageNavigationFooter: React.FC<GlobalProps> = (props) => {
   };
 
   const handleNextPage = () => {
-    if (pageSize < PAGE_SIZE) { // not ideal, but count(*) for the total results might be worse for now 
+    if (pageSize < PAGE_SIZE) {
+      // not ideal, but count(*) for the total results might be worse for now
       return;
     }
     props.setQuery({
@@ -35,14 +36,14 @@ const PageNavigationFooter: React.FC<GlobalProps> = (props) => {
           </span>
           <button
             onClick={handlePrevPage}
-            className="btn btn-circle mx-2"
+            className="btn-circle btn mx-2"
             disabled={currentPage === 0}
           >
             &lt;
           </button>
           <button
             onClick={handleNextPage}
-            className="btn btn-circle mx-2"
+            className="btn-circle btn mx-2"
             disabled={pageSize < PAGE_SIZE}
           >
             &gt;

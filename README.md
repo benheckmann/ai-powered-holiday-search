@@ -4,6 +4,12 @@
 
 Try it out at [check24-holiday-challenge.b-n.cc](https://check24-holiday-challenge.b-n.cc/).
 
+## Screen Recording
+
+![Screen Recording GIF](./demo-screen-recording-r-15.gif)
+The screen recording as HD vido is available on [Google Drive](https://drive.google.com/file/d/1br9AGpft9UW734O5g5CveO9cCHDOaFXi/view?usp=sharing)
+
+
 ## Introduction
 
 In this README, I will explain my concept, approach, the design choices I made and the optimizations I've implemented. I'll also discuss my ideas for future enhancements.
@@ -56,19 +62,19 @@ While the current system performs quite well, I have identified a number of pote
 
 ## How to Run the Project Locally
 
-- Clone the repository:
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/benheckmann/check24-gendev-challenge.git
 ```
 
-- Add a `.env` file following `.env.example` in the root directory of the project.
+2. Add a `.env` file following `.env.example` in the root directory of the project.
 
 ```bash
 cp .env.example .env
 ```
 
-- Replace the placeholders in `.env` with your MySQL connection string and OpenAI API key. The expected database tables are specified in the file `schema.prisma` and follow the provided challenge data. Note: the current table names are newoffers and newhotels and can also be changed in `schema.prisma`.
+Replace the placeholders in `.env` with your MySQL connection string and OpenAI API key.
 
 ```
 # Prisma
@@ -77,19 +83,23 @@ DATABASE_URL=mysql://USER:PASSWORD@HOST:PORT/DATABASE
 OPENAI_API_KEY=key
 ```
 
-- Install dependencies & run the project:
+3. Install dependencies & run the project:
 
 ```bash
 yarn install
 yarn dev
 ```
 
-- You can alternatively build & run the project's docker image:
+You can alternatively build & run the project's docker image (instead of step 2. & 3.):
 
 ```
 docker build -t ct3a-docker --build-arg NEXT_PUBLIC_CLIENTVAR=clientvar .
 docker run -e DATABASE_URL="database_url_goes_here" -e OPENAI_API_KEY="key_goes_here" ct3a-docker
 ```
+
+4. Setup Database
+
+Upload two tables into your MySQL database, one for the hotels, and one for the offers. The expected table names, column names and types are specified in the file `schema.prisma` (and follow the provided challenge data). Upload the two tables to match this schema and optionally change the table names in this file as well by modifying `@@map("your_custom_table_name")`.
 
 ## Conclusion
 

@@ -86,6 +86,7 @@ const FilterBar: React.FC<GlobalProps> = (props) => {
               setDateRangeField([startDate!, endDate!]);
             }}
             isClearable={true}
+            dateFormat="dd.MM.yyyy"
             className="w-56 rounded px-3 py-2"
           />
         </div>

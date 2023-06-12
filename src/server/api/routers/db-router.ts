@@ -25,14 +25,22 @@ export const dbRouter = createTRPCRouter({
        * Note: I needed to use a raw query here to work around a prisma bug.
        * Of course, this is no production code as it might be volnurable to sql injection attacks.
        */
-      const sqlClause = `SELECT * 
+      const depDateStart = new Date(filters.departureDate.setHours(0, 0, 0, 0)).toISOString();
+      const depDateEnd = new Date(filters.departureDate.setHours(23, 59, 59, 999)).toISOString();
+      const retDateStart = new Date(filters.returnDate.setHours(0, 0, 0, 0)).toISOString();
+      const retDateEnd = new Date(filters.returnDate.setHours(23, 59, 59, 999)).toISOString();
+      // the ordering of the query matches the composite index which is based on the cardinality of the column value sets
+      const sqlClause = `
+      SELECT * 
       FROM newoffers 
-      WHERE outbounddeparturedatetime >= "${filters.departureDate.toISOString()}" 
-      AND inboundarrivaldatetime <= "${filters.returnDate.toISOString()}" 
+      WHERE inboundarrivaldatetime >= "${retDateStart}" 
+      AND inboundarrivaldatetime <= "${retDateEnd}" 
+      AND outbounddeparturedatetime >= "${depDateStart}"
+      AND outbounddeparturedatetime <= "${depDateEnd}"
       AND outbounddepartureairport = "${filters.departureAirport}" 
-      AND outboundarrivalairport = "${filters.destinationAirport}" 
       AND countadults = ${filters.countAdults} 
-      AND countchildren = ${filters.countChildren} 
+      AND countchildren = ${filters.countChildren}
+      AND outboundarrivalairport = "${filters.destinationAirport}" 
       LIMIT ${PAGE_SIZE} OFFSET ${PAGE_SIZE * pageNumber}`;
       console.log("search", sqlClause, new Date().toLocaleTimeString());
       const offers = await prisma.$queryRawUnsafe<Offer[]>(sqlClause);

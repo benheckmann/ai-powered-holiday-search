@@ -41,8 +41,10 @@ const ChatWidget: React.FC<GlobalProps> = (props) => {
   useEffect(() => {
     if (props.chatHistory.data && props.chatHistory.data.length === 0) {
       setIsChatOpen(false);
+    } else {
+      setIsChatOpen(true);
     }
-  }, [props.chatHistory.data]);
+  }, [props.currentPage]);
 
   const renderChatBubble = (message: Message, index: number) => {
     let text = message.content;

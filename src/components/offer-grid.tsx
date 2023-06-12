@@ -72,8 +72,9 @@ const OfferGrid: React.FC<GlobalProps> = (props) => {
                     Ab {offers[index]?.price} €<br />
                     Erw.: {offers[index]?.countadults}, Kinder: {offers[index]?.countchildren}{" "}
                     <br />
-                    Daten: {offers[index]?.outbounddeparturedatetime?.toLocaleDateString()} -{" "}
-                    {offers[index]?.inboundarrivaldatetime?.toLocaleDateString()} <br />
+                    Daten: {offers[index]?.outbounddeparturedatetime?.toLocaleDateString(
+                      "de-DE"
+                    )} - {offers[index]?.inboundarrivaldatetime?.toLocaleDateString("de-DE")} <br />
                     Zimmer: {offers[index]?.roomtype} <br />
                   </p>
                   <div className="card-actions justify-start">

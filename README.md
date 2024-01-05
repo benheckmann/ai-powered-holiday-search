@@ -15,11 +15,11 @@ In this README, I will explain my concept, approach, the design choices I made a
 
 ## Core Idea
 
-With the current development of large language models (LLMs), the way we interact with digital systems will drastically evolve. With this in mind, I have designed an travel platform with an AI-travel-agent, UrlaubGPT, aiming to merge human-like interactions with the common controls of modern travel platform. The platform leverages ChatGPT to handle text input, making search input not only more flexible but also interactive.
+With the current development of large language models (LLMs), the way we interact with digital systems will drastically evolve. With this in mind, I have designed UrlaubGPT, a travel platform integrated with an AI travel agent, aiming to merge human-like interactions with the common controls of modern travel platform. The platform leverages ChatGPT to handle text input, making search input not only more flexible but also interactive.
 
 ## User Experience
 
-The user interface of UrlaubGPT is designed to be minimal yet powerful. The landing page of the platform presents a single search bar, which invites the user to input their holiday preferences in a conversational manner. The user might type in something like, "A kitesurf holiday in europe with my children," or "A trip to Mallorca with my wife anytime in September." The LLM then interprets this input, auto-adjusting the search filters on the portal, and responds to the user by providing additional destination suggestions, asking follow-up questions, and so on. The user is then directed to the results page, where they can either adjust the filters manually or chat with the AI for more tips and to refine their search. The chat window can be hidden to allow a full-screen view of the results.
+The user interface of UrlaubGPT is designed to be minimal yet powerful. The landing page of the platform presents a single search bar, which invites the user to input their holiday preferences in a conversational manner. The user might type in something like: "A kitesurf holiday in Europe with my children," or "A trip to Mallorca with my wife anytime in September." The LLM then interprets this input, auto-adjusting the search filters on the portal, and responds to the user by providing additional destination suggestions, asking follow-up questions, and so on. The user is then directed to the results page, where they can either adjust the filters manually or chat with the AI for more tips and to refine their search. The chat window can be hidden to allow a full-screen view of the results.
 
 ## Design
 
@@ -31,7 +31,7 @@ UrlaubGPT is built with a robust and modern tech stack, aiming for speed of deve
 
 - **Database: Azure MySQL**: A fully managed relational database service, Azure MySQL provides a scalable database solution, ensuring secure data management. Its ability to handle large volumes of data and flexible scaling options make it ideal for the application.
 
-- **Large Language Model: ChatGPT**: ChatGPT is used as the underlying LLM for handling and interpreting user input. Using ChatGPT allowed for quicker development times than hosting an open-source model, due to the reduced need for setup, fine-tuning and maintenance.
+- **Large Language Model: ChatGPT**: ChatGPT is used as the underlying LLM for handling and interpreting user input. Using ChatGPT enabled quicker development times compared to hosting an open-source model, as it reduced the need for setup, fine-tuning, and maintenance.
 
 - **Application**: The application is built using the [T3 Stack](https://create.t3.gg/), comprising several modern technologies designed for optimal performance and development efficiency:
   - **Next.js**: A React-based framework for building scalable, high-performance web applications. Next.js provides powerful features like server-side rendering and static site generation, which help to optimize the performance and user experience of the application.
@@ -44,7 +44,7 @@ UrlaubGPT is built with a robust and modern tech stack, aiming for speed of deve
 
 Several optimizations have been implemented to enhance the system's performance and reliability:
 
-- Fallback mechanism for wrong LLM outputs: JSON responses are parsed and checked against the expected schema. In case of a mismatch, the response is sent back to the LLM with the required schema. If the LLM fails to generate a response that adheres to the schema again, a default error message is displayed to the user.
+- Fallback mechanism for wrong LLM outputs: JSON responses are parsed and checked against the expected schema. In the case of a mismatch, the response is sent back to the LLM with the necessary schema for correction. If the LLM fails to generate a response that adheres to the schema again, a default error message is displayed to the user.
 - Database Indexing: Optimized database indexing ensures quick data retrieval, contributing to the application's overall responsiveness.
 - Session-based chat: User chat history is stored in a session (with the session id being stored in the browsers `localStorage`), maintaining chat persistence across page refreshes without requiring user accounts.
 - Split result pages: To optimize data loading, the results are divided across multiple pages, allowing efficient retrieval and display of database results.

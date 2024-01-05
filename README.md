@@ -1,9 +1,5 @@
 # Check24 GenDev Challenge Submission: UrlaubGPT - Your AI Assisted Holiday Planner 🤖🌊
 
-## Live Demo
-
-Try it out at [check24-holiday-challenge.b-n.cc](https://check24-holiday-challenge.b-n.cc/)! (Alternative [link](https://check24-gendev-challenge-5wy2zebdx-benheckmann.vercel.app))
-
 ## Screen Recording
 
 ![Screen Recording GIF](./demo-screen-recording-r-15.gif)

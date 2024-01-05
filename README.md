@@ -22,8 +22,8 @@ The user interface of UrlaubGPT is designed to be minimal yet powerful. The land
 Inspired by Check24's corporate design, UrlaubGPT's design emphasizes simple, functional aesthetics. The platform uses square offer cards to prioritize images, providing visual appeal and enabling more offers to be displayed simultaneously.
 
 ## Tech Stack
-
 UrlaubGPT is built with a robust and modern tech stack, aiming for speed of development, efficiency, and scalability:
+![Architecture Diagram](./architecture-diagram.png)
 
 - **Database: Azure MySQL**: A fully managed relational database service, Azure MySQL provides a scalable database solution, ensuring secure data management. Its ability to handle large volumes of data and flexible scaling options make it ideal for the application.
 
